@@ -61,7 +61,7 @@ public class DefineOfficeHoursPage {
             List<String> daysSelected = new ArrayList<>();
 
             if (semester == null || year.isEmpty()) {
-                showAlert("");
+                showAlert("Semester and Year are required");
                 return;
             }
         });
@@ -74,6 +74,8 @@ public class DefineOfficeHoursPage {
         return view;
     }
     private void showAlert(String alert){
-        
+        Alert message = new Alert(Alert.AlertType.WARNING);
+        message.setContentText(alert);
+        message.showAndWait();
     }
 }
