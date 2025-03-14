@@ -75,7 +75,7 @@ public class DefineOfficeHoursPage {
                 return;
             }
             if (!year.matches("\\d{4}")) {
-
+                showAlert("Year must be 4 digit integers");
                 return;
             }
         });
