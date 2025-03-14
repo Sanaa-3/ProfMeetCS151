@@ -64,6 +64,16 @@ public class DefineOfficeHoursPage {
                 showAlert("Semester and Year are required");
                 return;
             }
+
+            if (mon.isSelected()) daysSelected.add("Monday");
+            if (tue.isSelected()) daysSelected.add("Tuesday");
+            if (wed.isSelected()) daysSelected.add("Wednesday");
+            if (thu.isSelected()) daysSelected.add("Thursday");
+            if (fri.isSelected()) daysSelected.add("Friday");
+            if (daysSelected.isEmpty()) {
+                showAlert("At least one day must be selected");
+                return;
+            }
         });
 
         vbox.getChildren().addAll(title, form, buttonBox);
