@@ -1,8 +1,8 @@
-# Name of application: 
+# ProfMeet:
 # Version: 0.2
 
 # who did what:
-1. 
+1. Vaishnavi Panchal - HomePage
 2. 
 3. 
 3. 

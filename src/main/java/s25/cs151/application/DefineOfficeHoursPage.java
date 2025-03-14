@@ -74,6 +74,10 @@ public class DefineOfficeHoursPage {
                 showAlert("At least one day must be selected");
                 return;
             }
+            if (!year.matches("\\d{4}")) {
+
+                return;
+            }
         });
 
         vbox.getChildren().addAll(title, form, buttonBox);

@@ -28,7 +28,7 @@ public class HomePage{
     }
     public BorderPane getView(){
 
-        //title text
+        //title textcommbr
         Text title = new Text("ProfMeet");
         //HBox titleBox = new HBox(title);
 
