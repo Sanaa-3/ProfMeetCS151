@@ -15,13 +15,20 @@ public class DefineOfficeHoursPage {
 
     public DefineOfficeHoursPage(Stage stage, Parent previousPage) {
         this.stage = stage;
+
         this.view = View();
         this.previousPage = previousPage;
+
+        //Background Color
+        view.setStyle("-fx-background-color: #A4C3A2");
+        stage.setScene(new Scene(view,700,700));
     }
 
     private VBox View() {
         VBox vbox = new VBox(20);
         Label title = new Label("Define Semester Office Hours");
+        //Formatting for title
+        title.setStyle("-fx-font-size: 32px; -fx-font-weight: bold");
         GridPane form = new GridPane();
 
         Label semesterLabel = new Label("Semester: ");
@@ -29,6 +36,9 @@ public class DefineOfficeHoursPage {
         semesterCombo.getItems().addAll("Spring", "Summer", "Fall", "Winter");
         form.add(semesterLabel, 0, 0);
         form.add(semesterCombo, 1, 0);
+
+        //Formatting the dropdown box
+        semesterCombo.setStyle("-fx-background-color: #FFFFFF");
 
         Label yearLabel = new Label("Year: ");
         TextField yearField = new TextField();
@@ -46,9 +56,17 @@ public class DefineOfficeHoursPage {
         form.add(daysLabel, 0, 2);
         form.add(daysBox, 1, 2);
 
+
+
+
         Button saveButton = new Button("Save");
         Button backButton = new Button("Back");
         HBox buttonBox= new HBox(backButton, saveButton);
+
+        //Formatting the buttons
+        saveButton.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
+        backButton.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
+
 
         backButton.setOnAction(e -> stage.setScene(new Scene(previousPage, 700, 700))
             //HomePage home = new HomePage(stage);
