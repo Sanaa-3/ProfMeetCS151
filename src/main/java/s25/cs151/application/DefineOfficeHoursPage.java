@@ -11,13 +11,11 @@ import java.util.*;
 public class DefineOfficeHoursPage {
     private final Stage stage;
     private final VBox view;
-    private final Parent previousPage;
 
-    public DefineOfficeHoursPage(Stage stage, Parent previousPage) {
+    public DefineOfficeHoursPage(Stage stage) {
         this.stage = stage;
 
         this.view = View();
-        this.previousPage = previousPage;
 
         //Background Color
         view.setStyle("-fx-background-color: #A4C3A2");
@@ -68,10 +66,11 @@ public class DefineOfficeHoursPage {
         backButton.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
 
 
-        backButton.setOnAction(e -> stage.setScene(new Scene(previousPage, 700, 700))
-            //HomePage home = new HomePage(stage);
-            //stage.setScene(new Scene(home.getView(), 700, 700));
-        );
+        backButton.setOnAction(e -> {
+            //stage.setScene(new Scene(previousPage, 700, 700))
+            HomePage homePage = new HomePage(stage);
+            stage.getScene().setRoot(homePage.getView());
+        });
 
         saveButton.setOnAction(e -> {
             String semester = semesterCombo.getValue();
