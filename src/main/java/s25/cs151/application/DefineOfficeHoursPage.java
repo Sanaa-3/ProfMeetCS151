@@ -11,15 +11,21 @@ import java.util.*;
 public class DefineOfficeHoursPage {
     private final Stage stage;
     private final VBox view;
+    private final List<SemesterOfficeHours> officeHoursList;
+    private static final List<SemesterOfficeHours> storedOfficeHours = new ArrayList<>();
 
-    public DefineOfficeHoursPage(Stage stage) {
+    public DefineOfficeHoursPage(Stage stage, List<SemesterOfficeHours> officeHoursList) {
         this.stage = stage;
-
+        this.officeHoursList = officeHoursList;
         this.view = View();
 
         //Background Color
         view.setStyle("-fx-background-color: #A4C3A2");
         stage.setScene(new Scene(view,700,700));
+    }
+
+    public static List<SemesterOfficeHours> getStoredOfficeHours(){
+        return storedOfficeHours;
     }
 
     private VBox View() {
@@ -95,6 +101,19 @@ public class DefineOfficeHoursPage {
                 showAlert("Year must be 4 digit integers");
                 return;
             }
+            SemesterOfficeHours newOfficeHours = new SemesterOfficeHours(semester, Integer.parseInt(year), daysSelected);
+            storedOfficeHours.add(newOfficeHours);
+            //officeHoursList.add(new SemesterOfficeHours(semester, Integer.parseInt(year), daysSelected));
+            System.out.println("Saved OfficeHours: " + storedOfficeHours);
+            showAlert("Office hours saved successfully!");
+
+            yearField.clear();
+            semesterCombo.setValue(null);
+            mon.setSelected(false);
+            tue.setSelected(false);
+            wed.setSelected(false);
+            thu.setSelected(false);
+            fri.setSelected(false);
         });
 
         vbox.getChildren().addAll(title, form, buttonBox);

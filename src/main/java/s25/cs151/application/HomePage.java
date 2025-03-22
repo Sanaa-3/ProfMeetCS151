@@ -11,6 +11,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomePage{
 
@@ -19,12 +21,15 @@ public class HomePage{
     private Button defineNewCourse;
     private Button settingsBtn;
     private Button scheduleBtn;
-    private Button viewAllBtn;
+    private Button viewAllOfficeHoursBtn;
+    private Button viewAllAppBtn;
     private Button searchBtn;
     private Stage homeStage;
+    private List<SemesterOfficeHours> officeHoursList;
 
     public HomePage(Stage homeStage){
         this.homeStage = homeStage;
+        this.officeHoursList = new ArrayList<>();
     }
     public BorderPane getView(){
 
@@ -42,26 +47,34 @@ public class HomePage{
 
         //create buttons
         defineSemOfficeHours = new Button("Define Semester Office Hours");
-        //go to define sem office hours page on click
-        defineSemOfficeHours.setOnAction(e -> {
-//            DefineOfficeHoursPage definePage = new DefineOfficeHoursPage(homeStage, this.getView());
-//            homeStage.setScene(new Scene(definePage.getView(), 700, 700));
-            DefineOfficeHoursPage definePage = new DefineOfficeHoursPage(homeStage);
-            homeStage.getScene().setRoot(definePage.getView());
-        });
+
         defineSemSlots = new Button("Define Semester Time Slots");
         defineNewCourse = new Button("Define New Course");
+        viewAllOfficeHoursBtn = new Button("View Office Hours");
         settingsBtn = new Button("Settings");
 
         //stylize sidebar buttons
         defineSemOfficeHours.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
         defineSemSlots.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
         defineNewCourse.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
+        viewAllOfficeHoursBtn.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
         settingsBtn.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
 
+    //go to define sem office hours page on click
+        defineSemOfficeHours.setOnAction(e -> {
+//            DefineOfficeHoursPage definePage = new DefineOfficeHoursPage(homeStage, this.getView());
+//            homeStage.setScene(new Scene(definePage.getView(), 700, 700));
+            DefineOfficeHoursPage definePage = new DefineOfficeHoursPage(homeStage, officeHoursList);
+            homeStage.getScene().setRoot(definePage.getView());
+        });
 
+        //view all of the office hours
+        viewAllOfficeHoursBtn.setOnAction(e ->{
+            OfficeHoursTablePage tablePage = new OfficeHoursTablePage(homeStage);
+            homeStage.getScene().setRoot(tablePage.getView());
+        });
         //add all buttons to sidebar vbox
-        sidebar.getChildren().addAll(title, defineNewCourse, defineSemSlots, defineSemOfficeHours, settingsBtn);
+        sidebar.getChildren().addAll(title, defineNewCourse, defineSemSlots, defineSemOfficeHours, viewAllOfficeHoursBtn, settingsBtn);
 
         //header and styling
         Text headerMsg = new Text("Welcome, Professor! Here's your office hour overview: ");
@@ -75,15 +88,15 @@ public class HomePage{
         HBox actionButtons = new HBox(20);
 
         scheduleBtn = new Button("Schedule a new Office Hour");
-        viewAllBtn = new Button("View All Appointments");
+        viewAllAppBtn = new Button("View All Appointments");
         searchBtn = new Button("Search for Appointments");
 
         //stylize the buttons
         scheduleBtn.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
-        viewAllBtn.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
+        viewAllAppBtn.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
         searchBtn.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
 
-        actionButtons.getChildren().addAll(scheduleBtn, viewAllBtn, searchBtn);
+        actionButtons.getChildren().addAll(scheduleBtn, viewAllAppBtn, searchBtn);
 
         appointmentPg.getChildren().add(actionButtons);
 
