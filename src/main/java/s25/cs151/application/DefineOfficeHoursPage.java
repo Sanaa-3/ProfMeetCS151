@@ -12,7 +12,6 @@ public class DefineOfficeHoursPage {
     private final Stage stage;
     private final VBox view;
     private final List<SemesterOfficeHours> officeHoursList;
-    private static final List<SemesterOfficeHours> storedOfficeHours = new ArrayList<>();
 
     public DefineOfficeHoursPage(Stage stage, List<SemesterOfficeHours> officeHoursList) {
         this.stage = stage;
@@ -22,10 +21,6 @@ public class DefineOfficeHoursPage {
         //Background Color
         view.setStyle("-fx-background-color: #A4C3A2");
         stage.setScene(new Scene(view,700,700));
-    }
-
-    public static List<SemesterOfficeHours> getStoredOfficeHours(){
-        return storedOfficeHours;
     }
 
     private VBox View() {
@@ -101,12 +96,15 @@ public class DefineOfficeHoursPage {
                 showAlert("Year must be 4 digit integers");
                 return;
             }
+            //new office hour that user defines
             SemesterOfficeHours newOfficeHours = new SemesterOfficeHours(semester, Integer.parseInt(year), daysSelected);
-            storedOfficeHours.add(newOfficeHours);
-            //officeHoursList.add(new SemesterOfficeHours(semester, Integer.parseInt(year), daysSelected));
-            System.out.println("Saved OfficeHours: " + storedOfficeHours);
-            showAlert("Office hours saved successfully!");
 
+            //add this new office hour to the stored list
+            officeHoursList.add(newOfficeHours);
+            //saves this data permanently to a CSV file
+            CSVHelper.saveOfficeHours(newOfficeHours);
+
+            showAlert("Office hours saved successfully!");
             yearField.clear();
             semesterCombo.setValue(null);
             mon.setSelected(false);

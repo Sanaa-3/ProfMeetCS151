@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -26,10 +27,12 @@ public class HomePage{
     private Button searchBtn;
     private Stage homeStage;
     private List<SemesterOfficeHours> officeHoursList;
+    private final OfficeHoursTablePage officeHoursTablePage;
 
     public HomePage(Stage homeStage){
         this.homeStage = homeStage;
         this.officeHoursList = new ArrayList<>();
+        this.officeHoursTablePage = new OfficeHoursTablePage(homeStage);
     }
     public BorderPane getView(){
 
@@ -68,11 +71,15 @@ public class HomePage{
             homeStage.getScene().setRoot(definePage.getView());
         });
 
-        //view all of the office hours
-        viewAllOfficeHoursBtn.setOnAction(e ->{
+        //view all office hours, loads it upon clicking of button and sorts data
+        viewAllOfficeHoursBtn.setOnAction(e -> {
             OfficeHoursTablePage tablePage = new OfficeHoursTablePage(homeStage);
+            tablePage.updateTable(CSVHelper.loadOfficeHours());
             homeStage.getScene().setRoot(tablePage.getView());
         });
+
+
+
         //add all buttons to sidebar vbox
         sidebar.getChildren().addAll(title, defineNewCourse, defineSemSlots, defineSemOfficeHours, viewAllOfficeHoursBtn, settingsBtn);
 

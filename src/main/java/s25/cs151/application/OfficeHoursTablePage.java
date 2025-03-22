@@ -23,7 +23,6 @@ public class OfficeHoursTablePage {
         this.table = new TableView<>();
         this.view = createView();
 
-        stage.setScene(new Scene(view, 700, 500));
     }
 
     private VBox createView() {
@@ -51,8 +50,20 @@ public class OfficeHoursTablePage {
         return vbox;
     }
 
+
+    //table size updated and view updated when new data added
     private ObservableList<SemesterOfficeHours> getOfficeHoursData() {
-        return FXCollections.observableArrayList(DefineOfficeHoursPage.getStoredOfficeHours());
+        List<SemesterOfficeHours> loadedOfficeHours = CSVHelper.loadOfficeHours(); // Load from CSV
+        return FXCollections.observableArrayList(loadedOfficeHours);
+    }
+
+    public void updateTable(List<SemesterOfficeHours> newData) {
+        table.getItems().clear();
+        table.getItems().addAll(newData);
+    }
+
+    public TableView<SemesterOfficeHours> getTable() {
+        return table;
     }
 
     public Parent getView() {
