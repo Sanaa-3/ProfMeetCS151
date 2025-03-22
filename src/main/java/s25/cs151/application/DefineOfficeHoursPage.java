@@ -1,6 +1,7 @@
 package s25.cs151.application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
@@ -13,9 +14,9 @@ public class DefineOfficeHoursPage {
     private final VBox view;
     private final List<SemesterOfficeHours> officeHoursList;
 
-    public DefineOfficeHoursPage(Stage stage, List<SemesterOfficeHours> officeHoursList) {
+    public DefineOfficeHoursPage(Stage stage, BorderPane officeHoursList) {
         this.stage = stage;
-        this.officeHoursList = officeHoursList;
+        this.officeHoursList = (List<s25.cs151.application.SemesterOfficeHours>) officeHoursList;
         this.view = View();
 
         //Background Color
@@ -54,8 +55,6 @@ public class DefineOfficeHoursPage {
         daysBox.getChildren().addAll(mon, tue, wed, thu, fri);
         form.add(daysLabel, 0, 2);
         form.add(daysBox, 1, 2);
-
-
 
 
         Button saveButton = new Button("Save");

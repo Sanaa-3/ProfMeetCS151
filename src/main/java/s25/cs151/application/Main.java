@@ -18,7 +18,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         // homePage scene setup
         HomePage home = new HomePage(primaryStage);
-        Scene scene = new Scene(home.getView(), 700, 700);
+        Scene scene = new Scene(home.getView(), 1000, 800);
 
         // testing define page
 //        DefineOfficeHoursPage definePage = new DefineOfficeHoursPage(primaryStage, home.getView());

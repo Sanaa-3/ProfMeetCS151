@@ -4,36 +4,68 @@ import java.util.*;
 
 public class CSVHelper {
 
-    //file path and its name
+    // file path and its name
     private static final String FILE_PATH = "office_hours.csv"; // File name
 
-    //uses buffered reader to read file line by line, splits the data based on comma and then adds it to the list
+    // loads office hours from the CSV file
     public static List<SemesterOfficeHours> loadOfficeHours() {
         List<SemesterOfficeHours> officeHoursList = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             while ((line = br.readLine()) != null) {
+                // Skip empty lines
+                if (line.trim().isEmpty()) continue;
+
+                // Split line by comma
                 String[] parts = line.split(",");
-                if (parts.length < 3) continue;
-                String semester = parts[0];
-                int year = Integer.parseInt(parts[1]);
+
+                // Skip lines that don't have enough data
+                if (parts.length < 3) {
+                    System.err.println("Skipping invalid line: " + line);
+                    continue;
+                }
+
+                // Extract semester, year, and days
+                String semester = parts[0].trim();
+                int year;
+                try {
+                    year = Integer.parseInt(parts[1].trim());
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid year format in line: " + line);
+                    continue;
+                }
+
+                // Normalize and split days by semicolon and trim extra spaces
                 List<String> days = Arrays.asList(parts[2].split(";"));
+                days = normalizeDays(days);  // Normalize the days
+
+                // Add the parsed data to the list
                 officeHoursList.add(new SemesterOfficeHours(semester, year, days));
+                System.out.println("Loaded: " + semester + ", " + year + ", " + days); // Debugging log
             }
-            //error handling
         } catch (IOException e) {
             System.err.println("Error loading office hours: " + e.getMessage());
         }
 
-        // sort the list in descending order
+        // Sort the list in descending order by year and semester
         officeHoursList.sort(Comparator.comparing(SemesterOfficeHours::getYear).reversed()
                 .thenComparing(o -> semesterOrder(o.getSemester()), Comparator.reverseOrder()));
 
+        System.out.println("Loaded " + officeHoursList.size() + " office hours records."); // Debugging log
         return officeHoursList;
     }
 
+    // Normalize the days: capitalize the first letter
+    private static List<String> normalizeDays(List<String> days) {
+        List<String> normalizedDays = new ArrayList<>();
+        for (String day : days) {
+            String normalizedDay = day.trim().substring(0, 1).toUpperCase() + day.trim().substring(1).toLowerCase();
+            normalizedDays.add(normalizedDay);
+        }
+        return normalizedDays;
+    }
 
-    //sorting order of semester: Spring > Summer Fall, Winter
+    // Sorting order of semester: Spring > Summer > Fall > Winter
     private static int semesterOrder(String semester) {
         switch (semester) {
             case "Spring": return 1;
@@ -44,10 +76,7 @@ public class CSVHelper {
         }
     }
 
-
-
-
-    //saves new SemesterOfficeHours to the CSV file, opens file and converts data to csv, data is then written to file
+    // Saves new SemesterOfficeHours to the CSV file
     public static void saveOfficeHours(SemesterOfficeHours newOfficeHours) {
         System.out.println("Saving office hours: " + newOfficeHours);
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH, true))) { // Append mode
@@ -58,6 +87,4 @@ public class CSVHelper {
             System.err.println("Error saving office hours: " + e.getMessage());
         }
     }
-
-
 }

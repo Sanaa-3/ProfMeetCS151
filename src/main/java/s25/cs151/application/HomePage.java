@@ -23,7 +23,7 @@ public class HomePage{
     private Button settingsBtn;
     private Button scheduleBtn;
     private Button viewAllOfficeHoursBtn;
-    private Button viewAllAppBtn;
+    private Button viewAllBtn;
     private Button searchBtn;
     private Stage homeStage;
     private List<SemesterOfficeHours> officeHoursList;
@@ -35,41 +35,39 @@ public class HomePage{
         this.officeHoursTablePage = new OfficeHoursTablePage(homeStage);
     }
     public BorderPane getView(){
+        BorderPane root = new BorderPane(); // Ensure this is used for the layout
 
-        //title textcommbr
-        Text title = new Text("ProfMeet");
-        //HBox titleBox = new HBox(title);
-
-        //might need to change this portion so title text is not in middle
-        title.setStyle("-fx-font-size: 40px; -fx-font-weight: bold");
+        //title text
+        Text titleText = new Text("ProfMeet");
+        titleText.setStyle("-fx-font-size: 42px; -fx-font-weight: bold; -fx-font-family: 'Palatino'; -fx-fill: #2C2C2C;");
 
         //sidebar of application
         VBox sidebar = new VBox(20);
         sidebar.setStyle("-fx-background-color: linear-gradient(to bottom, #5D7B6F, #EAE7D6);");
-        sidebar.setAlignment(javafx.geometry.Pos.CENTER);
+        sidebar.setPadding(new Insets(20));
+        sidebar.setAlignment(Pos.TOP_CENTER);
 
         //create buttons
         defineSemOfficeHours = new Button("Define Semester Office Hours");
-
         defineSemSlots = new Button("Define Semester Time Slots");
         defineNewCourse = new Button("Define New Course");
         viewAllOfficeHoursBtn = new Button("View Office Hours");
         settingsBtn = new Button("Settings");
 
-        //stylize sidebar buttons
-        defineSemOfficeHours.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
-        defineSemSlots.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
-        defineNewCourse.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
-        viewAllOfficeHoursBtn.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
-        settingsBtn.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
+        //Stylize sidebar buttons using the helper function
+        setSideButtonStyle(defineSemOfficeHours);
+        setSideButtonStyle(defineSemSlots);
+        setSideButtonStyle(defineNewCourse);
+        setSideButtonStyle(settingsBtn);
+        setSideButtonStyle(viewAllOfficeHoursBtn);
 
-    //go to define sem office hours page on click
+        //go to define sem office hours page on click
         defineSemOfficeHours.setOnAction(e -> {
-//            DefineOfficeHoursPage definePage = new DefineOfficeHoursPage(homeStage, this.getView());
-//            homeStage.setScene(new Scene(definePage.getView(), 700, 700));
-            DefineOfficeHoursPage definePage = new DefineOfficeHoursPage(homeStage, officeHoursList);
-            homeStage.getScene().setRoot(definePage.getView());
+            DefineOfficeHoursPage definePage = new DefineOfficeHoursPage(homeStage, this.getView());
+            System.out.println("Define Semester Office Hours button clicked.");
+            homeStage.setScene(new Scene(definePage.getView(), 700, 700));
         });
+
 
         //view all office hours, loads it upon clicking of button and sorts data
         viewAllOfficeHoursBtn.setOnAction(e -> {
@@ -81,38 +79,67 @@ public class HomePage{
 
 
         //add all buttons to sidebar vbox
-        sidebar.getChildren().addAll(title, defineNewCourse, defineSemSlots, defineSemOfficeHours, viewAllOfficeHoursBtn, settingsBtn);
+        sidebar.getChildren().addAll(titleText, defineNewCourse, defineSemSlots, defineSemOfficeHours, viewAllOfficeHoursBtn, settingsBtn);
 
         //header and styling
         Text headerMsg = new Text("Welcome, Professor! Here's your office hour overview: ");
         HBox header = new HBox(headerMsg);
-        header.setStyle("-fx-background-color: #D7F9FA; -fx-font-size: 15px; -fx-alignment: center;;");
+        header.setStyle("-fx-background-color: #D7F9FA; -fx-font-size: 25px; -fx-alignment: center;;");
+        header.setPadding(new Insets(15, 40, 20, 40));
 
         //main content
         VBox appointmentPg = new VBox(20);
         appointmentPg.setStyle("-fx-background-color: #A4C3A2");
 
         HBox actionButtons = new HBox(20);
+        actionButtons.setPadding(new Insets(30, 40, 20, 40));
 
-        scheduleBtn = new Button("Schedule a new Office Hour");
-        viewAllAppBtn = new Button("View All Appointments");
-        searchBtn = new Button("Search for Appointments");
+        scheduleBtn = new Button("Schedule a new \n   Office Hour");
+        viewAllBtn = new Button("   View All \nAppointments");
+        searchBtn = new Button("   Search for \nAppointments");
 
         //stylize the buttons
-        scheduleBtn.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
-        viewAllAppBtn.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
-        searchBtn.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
+        setMiddleButtonStyle(scheduleBtn);
+        setMiddleButtonStyle(viewAllBtn);
+        setMiddleButtonStyle(searchBtn);
 
-        actionButtons.getChildren().addAll(scheduleBtn, viewAllAppBtn, searchBtn);
+        // Add buttons to action panel
+        actionButtons.getChildren().addAll(scheduleBtn, viewAllBtn, searchBtn);
 
+        // Adding action buttons to the appointment page
         appointmentPg.getChildren().add(actionButtons);
 
-        BorderPane root = new BorderPane();
         root.setTop(header);
         root.setLeft(sidebar);
         root.setCenter(appointmentPg);
 
         return root;
+    }
+
+    // Helper function to style the buttons
+    private void setMiddleButtonStyle(Button button) {
+        button.setStyle(
+                "-fx-background-color: #E2DFDA; " +
+                        "-fx-text-fill: #2C2C2C; " +
+                        "-fx-font-size: 16px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-font-family: 'Arial'; " +
+                        "-fx-padding: 10px 20px; " +
+                        "-fx-background-radius: 5px; " +
+                        "-fx-border-radius: 10px;");
+        button.setPrefWidth(250);  // Consistent button width
+    }
+
+    // Helper function to stylize a button
+    private void setSideButtonStyle(Button button) {
+        button.setStyle(
+                "-fx-background-color: #E2DFDA; " +
+                        "-fx-text-fill: #2C2C2C; " +
+                        "-fx-font-size: 16px; " +
+                        "-fx-font-family: 'Arial'; " +
+                        "-fx-padding: 15px 20px; " +
+                        "-fx-font-weight: bold;");
+        button.setPrefWidth(270);  // Consistent button width
     }
 
 }
