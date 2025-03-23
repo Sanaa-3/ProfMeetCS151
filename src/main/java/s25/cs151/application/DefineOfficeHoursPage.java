@@ -1,4 +1,6 @@
 package s25.cs151.application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -21,19 +23,26 @@ public class DefineOfficeHoursPage {
 
         //Background Color
         view.setStyle("-fx-background-color: #A4C3A2");
-        stage.setScene(new Scene(view,1000,800));
+        // stage.setScene(new Scene(view,1000,800));
     }
 
     private VBox View() {
         VBox vbox = new VBox(20);
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setPadding(new Insets(20));
         Label title = new Label("Define Semester Office Hours");
         //Formatting for title
-        title.setStyle("-fx-font-size: 32px; -fx-font-weight: bold");
+        title.setStyle("-fx-font-size: 42px; -fx-font-weight: bold");
         GridPane form = new GridPane();
+        form.setAlignment(Pos.CENTER);
+        form.setStyle("-fx-font-size: 32px;");
+        form.setHgap(10);
+        form.setVgap(10);
 
         Label semesterLabel = new Label("Semester: ");
         ComboBox<String> semesterCombo = new ComboBox<>();
         semesterCombo.getItems().addAll("Spring", "Summer", "Fall", "Winter");
+        semesterCombo.setValue("Spring");
         form.add(semesterLabel, 0, 0);
         form.add(semesterCombo, 1, 0);
 
@@ -42,6 +51,7 @@ public class DefineOfficeHoursPage {
 
         Label yearLabel = new Label("Year: ");
         TextField yearField = new TextField();
+        yearField.setPromptText("e.g., 2025");
         form.add(yearLabel, 0 ,1);
         form.add(yearField, 1, 1);
 
@@ -59,7 +69,9 @@ public class DefineOfficeHoursPage {
 
         Button saveButton = new Button("Save");
         Button backButton = new Button("Back");
-        HBox buttonBox= new HBox(backButton, saveButton);
+        HBox buttonBox= new HBox(60, backButton, saveButton);
+        buttonBox.setStyle("-fx-font-size: 32px;");
+        buttonBox.setAlignment(Pos.CENTER);
 
         //Formatting the buttons
         saveButton.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");

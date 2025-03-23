@@ -66,6 +66,7 @@ public class HomePage{
             DefineOfficeHoursPage definePage = new DefineOfficeHoursPage(homeStage, officeHoursList);
             //System.out.println("Define Semester Office Hours button clicked.");
             //homeStage.setScene(new Scene(definePage.getView(), 700, 700));
+            homeStage.setScene(new Scene(definePage.getView(),1000,800));
         });
 
 
