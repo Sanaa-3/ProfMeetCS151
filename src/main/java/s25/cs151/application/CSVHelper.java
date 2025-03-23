@@ -78,7 +78,7 @@ public class CSVHelper {
 
     // save SemesterOfficeHours
     public static void saveOfficeHours(SemesterOfficeHours newOfficeHours) {
-        System.out.println("Saving office hours: " + newOfficeHours);
+        //System.out.println("Saving office hours: " + newOfficeHours);
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH, true))) { // Append mode
             String line = newOfficeHours.getSemester() + "," + newOfficeHours.getYear() + "," + String.join(";", newOfficeHours.getDays());
             bw.write(line);

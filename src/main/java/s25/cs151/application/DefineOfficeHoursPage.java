@@ -103,7 +103,7 @@ public class DefineOfficeHoursPage {
             //saves this data permanently to a CSV file
             CSVHelper.saveOfficeHours(newOfficeHours);
 
-            //showAlert("Office hours saved successfully!");
+            showAlert("Office hours saved successfully!");
             yearField.clear();
             semesterCombo.setValue(null);
             mon.setSelected(false);
