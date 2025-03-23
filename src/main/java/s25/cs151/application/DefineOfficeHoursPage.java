@@ -21,7 +21,7 @@ public class DefineOfficeHoursPage {
 
         //Background Color
         view.setStyle("-fx-background-color: #A4C3A2");
-        stage.setScene(new Scene(view,700,700));
+        stage.setScene(new Scene(view,1000,800));
     }
 
     private VBox View() {

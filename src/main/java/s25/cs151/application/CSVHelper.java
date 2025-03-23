@@ -4,8 +4,9 @@ import java.util.*;
 
 public class CSVHelper {
 
-    // file path and its name
-    private static final String FILE_PATH = "office_hours.csv"; // File name
+    // file path and its name - changed the path
+//    private static final String FILE_PATH = "office_hours.csv"; // File name
+    private static final String FILE_PATH = "src/main/java/s25/cs151/application/office_hours.csv"; // File name
 
     // loads office hours from the CSV file
     public static List<SemesterOfficeHours> loadOfficeHours() {
