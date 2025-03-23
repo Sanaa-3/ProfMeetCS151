@@ -64,7 +64,7 @@ public class HomePage{
         //go to define sem office hours page on click
         defineSemOfficeHours.setOnAction(e -> {
             DefineOfficeHoursPage definePage = new DefineOfficeHoursPage(homeStage, officeHoursList);
-            System.out.println("Define Semester Office Hours button clicked.");
+            //System.out.println("Define Semester Office Hours button clicked.");
             //homeStage.setScene(new Scene(definePage.getView(), 700, 700));
         });
 
