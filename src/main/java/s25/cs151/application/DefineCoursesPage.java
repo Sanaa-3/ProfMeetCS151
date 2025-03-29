@@ -13,11 +13,9 @@ import javafx.stage.Stage;
 public class DefineCoursesPage {
     private final Stage stage;
     private final VBox view;
-    private final CoursesDAO dao;
 
     public DefineCoursesPage(Stage stage) {
         this.stage = stage;
-        this.dao = new CoursesDAO();
         this.view = createView();
         this.view.setStyle("-fx-background-color: #A4C3A2");
     }
@@ -75,7 +73,7 @@ public class DefineCoursesPage {
 
             Course course = new Course(courseCode, courseName, sectionNumber);
             try {
-                dao.save(course);
+                CSVHelper.saveCourse(course);
                 showAlert("Course saved successfully!");
                 codeField.clear();
                 nameField.clear();
