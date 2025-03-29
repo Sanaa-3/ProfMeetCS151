@@ -79,6 +79,7 @@ public class CSVHelper {
             default: return 5;
         }
     }
+
     // save SemesterOfficeHours
     public static void saveOfficeHours(SemesterOfficeHours newOfficeHours) {
         //System.out.println("Saving office hours: " + newOfficeHours);
