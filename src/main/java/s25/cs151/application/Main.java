@@ -27,6 +27,8 @@ public class Main extends Application {
         //set Homepage title, and set the scene for it
         primaryStage.setTitle("ProfMeet HomePage");
         primaryStage.setScene(scene);
+
+
         primaryStage.show();
 
     }
