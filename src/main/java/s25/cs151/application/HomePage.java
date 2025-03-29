@@ -28,6 +28,7 @@ public class HomePage{
     private Stage homeStage;
     private List<SemesterOfficeHours> officeHoursList;
     private final OfficeHoursTablePage officeHoursTablePage;
+    private List<TimeSlots> timeSlotsList;
 
     public HomePage(Stage homeStage){
         this.homeStage = homeStage;
@@ -81,6 +82,12 @@ public class HomePage{
             OfficeHoursTablePage tablePage = new OfficeHoursTablePage(homeStage);
             tablePage.updateTable(CSVHelper.loadOfficeHours());
             homeStage.getScene().setRoot(tablePage.getView());
+        });
+
+        //To navigate to define semester time slots page
+        defineSemSlots.setOnAction(e -> {
+            DefineSemesterTimeSlots defineSemSlots = new DefineSemesterTimeSlots(homeStage,timeSlotsList);
+            homeStage.getScene().setRoot(defineSemSlots.getView());
         });
 
 
