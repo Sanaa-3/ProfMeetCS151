@@ -70,6 +70,12 @@ public class HomePage{
         });
 
 
+        defineNewCourse.setOnAction(e -> {
+            DefineCoursesPage defineCoursesPage = new DefineCoursesPage(homeStage);
+            homeStage.setScene(new Scene(defineCoursesPage.getView(),1000,800));
+        });
+
+
         //view all office hours, loads it upon clicking of button and sorts data
         viewAllOfficeHoursBtn.setOnAction(e -> {
             OfficeHoursTablePage tablePage = new OfficeHoursTablePage(homeStage);
