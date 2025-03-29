@@ -25,6 +25,8 @@ public class HomePage{
     private Button viewAllOfficeHoursBtn;
     private Button viewAllBtn;
     private Button searchBtn;
+
+    private Button viewAllTimeSlotsBtn;
     private Stage homeStage;
     private List<SemesterOfficeHours> officeHoursList;
     private final OfficeHoursTablePage officeHoursTablePage;
@@ -54,6 +56,8 @@ public class HomePage{
         defineNewCourse = new Button("Define New Course");
         viewAllOfficeHoursBtn = new Button("View Office Hours");
         settingsBtn = new Button("Settings");
+        viewAllTimeSlotsBtn = new Button("View All Time Slots");
+
 
         //Stylize sidebar buttons using the helper function
         setSideButtonStyle(defineSemOfficeHours);
@@ -61,6 +65,8 @@ public class HomePage{
         setSideButtonStyle(defineNewCourse);
         setSideButtonStyle(settingsBtn);
         setSideButtonStyle(viewAllOfficeHoursBtn);
+        setSideButtonStyle(viewAllTimeSlotsBtn);
+
 
         //go to define sem office hours page on click
         defineSemOfficeHours.setOnAction(e -> {
@@ -90,10 +96,18 @@ public class HomePage{
             homeStage.getScene().setRoot(defineSemSlots.getView());
         });
 
+        //view all time slots, loads upon clicking of button and sorts data
+        viewAllTimeSlotsBtn.setOnAction(e -> {
+            List<TimeSlots> timeSlotsList = CSVHelper.loadTimeSlots();
+            TimeSlotsTablePage timeSlotsTablePage = new TimeSlotsTablePage(homeStage, timeSlotsList);
+            homeStage.getScene().setRoot(timeSlotsTablePage.getView());
+        });
+
+
 
 
         //add all buttons to sidebar vbox
-        sidebar.getChildren().addAll(titleText, defineNewCourse, defineSemSlots, defineSemOfficeHours, viewAllOfficeHoursBtn, settingsBtn);
+        sidebar.getChildren().addAll(titleText, defineNewCourse, defineSemSlots, defineSemOfficeHours, viewAllOfficeHoursBtn, viewAllTimeSlotsBtn, settingsBtn);
 
         //header and styling
         Text headerMsg = new Text("Welcome, Professor! Here's your office hour overview: ");

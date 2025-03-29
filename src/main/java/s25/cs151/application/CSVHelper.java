@@ -1,5 +1,7 @@
 package s25.cs151.application;
 import java.io.*;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class CSVHelper {
@@ -7,6 +9,8 @@ public class CSVHelper {
     // file path and its name - changed the path
 //    private static final String FILE_PATH = "office_hours.csv"; // File name
     private static final String FILE_PATH = "src/main/java/s25/cs151/application/office_hours.csv"; // File name
+
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("hh:mm a").withLocale(Locale.US);
 
     // loads office hours from the CSV file
     public static List<SemesterOfficeHours> loadOfficeHours() {
@@ -87,4 +91,57 @@ public class CSVHelper {
             System.err.println("Error saving office hours: " + e.getMessage());
         }
     }
+
+    //loads the time slots using the am pm format adn buffered reader
+    public static List<TimeSlots> loadTimeSlots() {
+        List<TimeSlots> timeSlotsList = new ArrayList<>();
+        String filePath = "src/main/java/s25/cs151/application/time_slots.csv";  // Ensure the path is correct
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                String[] values = line.split(",");
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a", Locale.US);
+                LocalTime fromHour = LocalTime.parse(values[0].trim(), formatter);
+                LocalTime toHour = LocalTime.parse(values[1].trim(), formatter);
+
+                timeSlotsList.add(new TimeSlots(fromHour, toHour));
+            }
+
+            //compare the time slots
+            timeSlotsList.sort(Comparator.comparing(TimeSlots::getStartTime)
+                    .thenComparing(TimeSlots::getEndTime));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return timeSlotsList;
+    }
+
+
+    //save the time slots and make sure it in formatted in hour minute
+    public static void saveTimeSlots(List<TimeSlots> timeSlotsList) {
+        String filePath = "src/main/java/s25/cs151/application/time_slots.csv";  // Make sure this path is correct
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            for (TimeSlots timeSlot : timeSlotsList) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a", Locale.US);
+                String fromTime = timeSlot.getStartTime().format(formatter);
+                String toTime = timeSlot.getEndTime().format(formatter);
+                //writes the time slot to the csv file
+                writer.write(fromTime + ", " + toTime);
+                writer.newLine();
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error saving time slots: " + e.getMessage());
+        }
+    }
+
+
 }
