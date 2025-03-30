@@ -25,7 +25,7 @@ public class HomePage{
     private Button viewAllOfficeHoursBtn;
     private Button viewAllBtn;
     private Button searchBtn;
-
+    private Button viewAllCoursesBtn;
     private Button viewAllTimeSlotsBtn;
     private Stage homeStage;
     private List<SemesterOfficeHours> officeHoursList;
@@ -55,6 +55,7 @@ public class HomePage{
         defineSemSlots = new Button("Define Semester Time Slots");
         defineNewCourse = new Button("Define New Course");
         viewAllOfficeHoursBtn = new Button("View Office Hours");
+        viewAllCoursesBtn = new Button("View All Courses");
         settingsBtn = new Button("Settings");
         viewAllTimeSlotsBtn = new Button("View All Time Slots");
 
@@ -66,6 +67,7 @@ public class HomePage{
         setSideButtonStyle(settingsBtn);
         setSideButtonStyle(viewAllOfficeHoursBtn);
         setSideButtonStyle(viewAllTimeSlotsBtn);
+        setSideButtonStyle(viewAllCoursesBtn);
 
 
         //go to define sem office hours page on click
@@ -82,6 +84,11 @@ public class HomePage{
             homeStage.setScene(new Scene(defineCoursesPage.getView(),1000,800));
         });
 
+        viewAllCoursesBtn.setOnAction(e -> {
+            CoursesTablePage coursesPage = new CoursesTablePage(homeStage);
+            coursesPage.updateTable(CSVHelper.loadCourses());
+            homeStage.getScene().setRoot(coursesPage.getView());
+        });
 
         //view all office hours, loads it upon clicking of button and sorts data
         viewAllOfficeHoursBtn.setOnAction(e -> {
@@ -107,7 +114,7 @@ public class HomePage{
 
 
         //add all buttons to sidebar vbox
-        sidebar.getChildren().addAll(titleText, defineNewCourse, defineSemSlots, defineSemOfficeHours, viewAllOfficeHoursBtn, viewAllTimeSlotsBtn, settingsBtn);
+        sidebar.getChildren().addAll(titleText, defineNewCourse, defineSemSlots, defineSemOfficeHours, viewAllOfficeHoursBtn, viewAllTimeSlotsBtn, viewAllCoursesBtn, settingsBtn);
 
         //header and styling
         Text headerMsg = new Text("Welcome, Professor! Here's your office hour overview: ");

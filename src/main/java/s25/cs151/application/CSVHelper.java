@@ -9,7 +9,7 @@ public class CSVHelper {
     // file path and its name - changed the path
 //    private static final String FILE_PATH = "office_hours.csv"; // File name
     private static final String FILE_PATH = "src/main/java/s25/cs151/application/office_hours.csv"; // File name
-
+    private static final String COURSES_FILE_PATH = "src/main/java/s25/cs151/application/courses.csv";
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("hh:mm a").withLocale(Locale.US);
 
     // loads office hours from the CSV file
@@ -140,6 +140,55 @@ public class CSVHelper {
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error saving time slots: " + e.getMessage());
+        }
+    }
+
+    public static List<Course> loadCourses() {
+        List<Course> coursesList = new ArrayList<>();
+        File file = new File(COURSES_FILE_PATH);
+        if (!file.exists()) {
+            return coursesList;
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) continue;
+
+                String[] parts = line.split(",", 3); // Split into courseCode, courseName, sectionNumber
+                if (parts.length < 3) {
+                    System.err.println("Skipping invalid line in courses.csv: " + line);
+                    continue;
+                }
+
+                String courseCode = parts[0].trim();
+                String courseName = parts[1].trim();
+                String sectionNumber = parts[2].trim();
+
+                Course course = new Course(courseCode, courseName, sectionNumber);
+                coursesList.add(course);
+            }
+        } catch (IOException e) {
+            System.err.println("Error loading courses: " + e.getMessage());
+        }
+
+        return coursesList;
+    }
+
+    // Save a course to the CSV file
+    public static void saveCourse(Course course) {
+        List<Course> existingCourses = loadCourses();
+        if (existingCourses.contains(course)) {
+            throw new IllegalStateException("Duplicate course: " + course.getCourseCode() + " " +
+                    course.getCourseName() + " Section " + course.getSectionNumber());
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(COURSES_FILE_PATH, true))) {
+            String line = course.getCourseCode() + "," + course.getCourseName() + "," + course.getSectionNumber();
+            bw.write(line);
+            bw.newLine();
+        } catch (IOException e) {
+            System.err.println("Error saving course: " + e.getMessage());
         }
     }
 
