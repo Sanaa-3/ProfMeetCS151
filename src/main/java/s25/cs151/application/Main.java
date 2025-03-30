@@ -25,8 +25,10 @@ public class Main extends Application {
 //        Scene scene2 = new Scene(definePage.getView(), 500, 500);
 
         //set Homepage title, and set the scene for it
-        primaryStage.setTitle("ProfMeet HomePage");
+        primaryStage.setTitle("ProfMeet Home Page");
         primaryStage.setScene(scene);
+
+
         primaryStage.show();
 
     }

@@ -1,7 +1,8 @@
 package s25.cs151.application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
@@ -14,26 +15,35 @@ public class DefineOfficeHoursPage {
     private final VBox view;
     private final List<SemesterOfficeHours> officeHoursList;
 
-    public DefineOfficeHoursPage(Stage stage, BorderPane officeHoursList) {
+    public DefineOfficeHoursPage(Stage stage, List<SemesterOfficeHours> officeHoursList) {
         this.stage = stage;
-        this.officeHoursList = (List<s25.cs151.application.SemesterOfficeHours>) officeHoursList;
+        //this.officeHoursList = (List<s25.cs151.application.SemesterOfficeHours>) officeHoursList;
+        this.officeHoursList = officeHoursList;
         this.view = View();
 
+        stage.setTitle("ProfMeet Define Office Hours Page");
         //Background Color
         view.setStyle("-fx-background-color: #A4C3A2");
-        stage.setScene(new Scene(view,700,700));
+        // stage.setScene(new Scene(view,1000,800));
     }
 
     private VBox View() {
         VBox vbox = new VBox(20);
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setPadding(new Insets(20));
         Label title = new Label("Define Semester Office Hours");
         //Formatting for title
-        title.setStyle("-fx-font-size: 32px; -fx-font-weight: bold");
+        title.setStyle("-fx-font-size: 42px; -fx-font-weight: bold");
         GridPane form = new GridPane();
+        form.setAlignment(Pos.CENTER);
+        form.setStyle("-fx-font-size: 22px;");
+        form.setHgap(10);
+        form.setVgap(10);
 
         Label semesterLabel = new Label("Semester: ");
         ComboBox<String> semesterCombo = new ComboBox<>();
         semesterCombo.getItems().addAll("Spring", "Summer", "Fall", "Winter");
+        semesterCombo.setValue("Spring");
         form.add(semesterLabel, 0, 0);
         form.add(semesterCombo, 1, 0);
 
@@ -42,6 +52,7 @@ public class DefineOfficeHoursPage {
 
         Label yearLabel = new Label("Year: ");
         TextField yearField = new TextField();
+        yearField.setPromptText("e.g., 2025");
         form.add(yearLabel, 0 ,1);
         form.add(yearField, 1, 1);
 
@@ -59,7 +70,9 @@ public class DefineOfficeHoursPage {
 
         Button saveButton = new Button("Save");
         Button backButton = new Button("Back");
-        HBox buttonBox= new HBox(backButton, saveButton);
+        HBox buttonBox= new HBox(60, backButton, saveButton);
+        buttonBox.setStyle("-fx-font-size: 32px;");
+        buttonBox.setAlignment(Pos.CENTER);
 
         //Formatting the buttons
         saveButton.setStyle("-fx-background-color: #E2DFDA; -fx-text-fill: grey; -fx-font-size: 14px; -fx-font-weight: bold;");
@@ -69,6 +82,7 @@ public class DefineOfficeHoursPage {
         backButton.setOnAction(e -> {
             //stage.setScene(new Scene(previousPage, 700, 700))
             HomePage homePage = new HomePage(stage);
+            stage.setTitle("ProfMeet Home Page");
             stage.getScene().setRoot(homePage.getView());
         });
 

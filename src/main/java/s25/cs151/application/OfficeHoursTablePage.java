@@ -2,11 +2,13 @@ package s25.cs151.application;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
@@ -24,15 +26,22 @@ public class OfficeHoursTablePage {
         this.stage = stage;
         this.table = new TableView<>();
         this.view = createView();
+
+        stage.setTitle("ProfMeet Office Hours Overview Page");
     }
 
     private VBox createView() {
         VBox vbox = new VBox(20); // Spacing between elements
-        vbox.setStyle("-fx-background-color: #E2DFDA; -fx-padding: 30px;");
+        vbox.setStyle("-fx-background-color: #A4C3A2; -fx-padding: 30px;");
 
         // Title Text
         Text titleText = new Text("Office Hours Overview");
-        titleText.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-fill: #2C2C2C; -fx-font-family: 'Arial';");
+        titleText.setStyle("-fx-font-size: 35px; -fx-font-weight: bold; -fx-fill: #2C2C2C; -fx-font-family: 'Arial';");
+
+        //Center title
+        HBox titleHBox = new HBox(titleText);
+        titleHBox.setAlignment(Pos.CENTER);
+
 
         // Table columns
         TableColumn<SemesterOfficeHours, String> semesterCol = new TableColumn<>("Semester");
@@ -48,7 +57,7 @@ public class OfficeHoursTablePage {
             List<String> days = data.getValue().getDays();
             return new javafx.beans.property.SimpleStringProperty(String.join(", ", days));
         });
-        daysCol.setMinWidth(150);
+        daysCol.setMinWidth(300);
 
         String headerStyle = "-fx-font-size: 16px; -fx-font-weight: bold; -fx-alignment: CENTER; -fx-font-family: 'Arial';";
         semesterCol.setStyle(headerStyle);
@@ -65,14 +74,21 @@ public class OfficeHoursTablePage {
         Button backButton = new Button("Back");
         setButtonStyle(backButton);
 
+        //Change to right side
+        HBox buttonHBox = new HBox(backButton);
+        buttonHBox.setAlignment(Pos.CENTER_RIGHT);
+
         backButton.setOnAction(e -> {
             HomePage homePage = new HomePage(stage);
+            stage.setTitle("ProfMeet Home Page");
             stage.getScene().setRoot(homePage.getView());
         });
 
 
         // Add content to VBox
-        vbox.getChildren().addAll(titleText, backButton, table);
+//        vbox.getChildren().addAll(titleHBox, backButton, table);
+        //Changed back button to the bottom of page
+        vbox.getChildren().addAll(titleHBox, table, buttonHBox);
 
         return vbox;
     }

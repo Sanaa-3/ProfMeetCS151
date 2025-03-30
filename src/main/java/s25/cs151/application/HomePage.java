@@ -25,9 +25,12 @@ public class HomePage{
     private Button viewAllOfficeHoursBtn;
     private Button viewAllBtn;
     private Button searchBtn;
+    private Button viewAllCoursesBtn;
+    private Button viewAllTimeSlotsBtn;
     private Stage homeStage;
     private List<SemesterOfficeHours> officeHoursList;
     private final OfficeHoursTablePage officeHoursTablePage;
+    private List<TimeSlots> timeSlotsList;
 
     public HomePage(Stage homeStage){
         this.homeStage = homeStage;
@@ -52,7 +55,10 @@ public class HomePage{
         defineSemSlots = new Button("Define Semester Time Slots");
         defineNewCourse = new Button("Define New Course");
         viewAllOfficeHoursBtn = new Button("View Office Hours");
+        viewAllCoursesBtn = new Button("View All Courses");
         settingsBtn = new Button("Settings");
+        viewAllTimeSlotsBtn = new Button("View All Time Slots");
+
 
         //Stylize sidebar buttons using the helper function
         setSideButtonStyle(defineSemOfficeHours);
@@ -60,14 +66,29 @@ public class HomePage{
         setSideButtonStyle(defineNewCourse);
         setSideButtonStyle(settingsBtn);
         setSideButtonStyle(viewAllOfficeHoursBtn);
+        setSideButtonStyle(viewAllTimeSlotsBtn);
+        setSideButtonStyle(viewAllCoursesBtn);
+
 
         //go to define sem office hours page on click
         defineSemOfficeHours.setOnAction(e -> {
-            DefineOfficeHoursPage definePage = new DefineOfficeHoursPage(homeStage, this.getView());
-            System.out.println("Define Semester Office Hours button clicked.");
-            homeStage.setScene(new Scene(definePage.getView(), 700, 700));
+            DefineOfficeHoursPage definePage = new DefineOfficeHoursPage(homeStage, officeHoursList);
+            //System.out.println("Define Semester Office Hours button clicked.");
+            //homeStage.setScene(new Scene(definePage.getView(), 700, 700));
+            homeStage.setScene(new Scene(definePage.getView(),1000,800));
         });
 
+
+        defineNewCourse.setOnAction(e -> {
+            DefineCoursesPage defineCoursesPage = new DefineCoursesPage(homeStage);
+            homeStage.setScene(new Scene(defineCoursesPage.getView(),1000,800));
+        });
+
+        viewAllCoursesBtn.setOnAction(e -> {
+            CoursesTablePage coursesPage = new CoursesTablePage(homeStage);
+            coursesPage.updateTable(CSVHelper.loadCourses());
+            homeStage.getScene().setRoot(coursesPage.getView());
+        });
 
         //view all office hours, loads it upon clicking of button and sorts data
         viewAllOfficeHoursBtn.setOnAction(e -> {
@@ -76,10 +97,24 @@ public class HomePage{
             homeStage.getScene().setRoot(tablePage.getView());
         });
 
+        //To navigate to define semester time slots page
+        defineSemSlots.setOnAction(e -> {
+            DefineSemesterTimeSlots defineSemSlots = new DefineSemesterTimeSlots(homeStage,timeSlotsList);
+            homeStage.getScene().setRoot(defineSemSlots.getView());
+        });
+
+        //view all time slots, loads upon clicking of button and sorts data
+        viewAllTimeSlotsBtn.setOnAction(e -> {
+            List<TimeSlots> timeSlotsList = CSVHelper.loadTimeSlots();
+            TimeSlotsTablePage timeSlotsTablePage = new TimeSlotsTablePage(homeStage, timeSlotsList);
+            homeStage.getScene().setRoot(timeSlotsTablePage.getView());
+        });
+
+
 
 
         //add all buttons to sidebar vbox
-        sidebar.getChildren().addAll(titleText, defineNewCourse, defineSemSlots, defineSemOfficeHours, viewAllOfficeHoursBtn, settingsBtn);
+        sidebar.getChildren().addAll(titleText, defineNewCourse, defineSemSlots, defineSemOfficeHours, viewAllOfficeHoursBtn, viewAllTimeSlotsBtn, viewAllCoursesBtn, settingsBtn);
 
         //header and styling
         Text headerMsg = new Text("Welcome, Professor! Here's your office hour overview: ");
