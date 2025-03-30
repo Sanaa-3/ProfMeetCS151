@@ -28,7 +28,6 @@ import java.util.List;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 
-
 public class TimeSlotsTablePage {
     private final Stage primaryStage;
     private final TableView<TimeSlots> tableView;
@@ -56,7 +55,6 @@ public class TimeSlotsTablePage {
         );
         lineNumberCol.setMinWidth(50);
         lineNumberCol.setStyle("-fx-alignment: CENTER;");
-
         //set up the columns of the table, from and to hour
         TableColumn<TimeSlots, String> fromHourCol = new TableColumn<>("From Hour");
         fromHourCol.setCellValueFactory(new PropertyValueFactory<>("startTimeString"));

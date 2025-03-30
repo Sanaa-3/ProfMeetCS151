@@ -40,7 +40,6 @@ public class DefineSemesterTimeSlots {
 
         // Update the title of the stage when this page is active
         primaryStage.setTitle("ProfMeet Define Semester Time Slots Page");
-
     }
 
     private VBox view() {
