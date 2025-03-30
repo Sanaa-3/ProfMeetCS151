@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 import java.util.*;
 
 public class CoursesTablePage {
@@ -23,6 +24,8 @@ public class CoursesTablePage {
         this.stage = stage;
         this.table = new TableView<>();
         this.view = createView();
+
+        stage.setTitle("ProfMeet Courses Overview Page");
     }
 
     private VBox createView() {
@@ -42,7 +45,7 @@ public class CoursesTablePage {
 
         TableColumn<Course, String> nameCol = new TableColumn<>("Course Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("courseName"));
-        nameCol.setMinWidth(250);
+        nameCol.setMinWidth(350);
 
         TableColumn<Course, String> sectionCol = new TableColumn<>("Section Number");
         sectionCol.setCellValueFactory(new PropertyValueFactory<>("sectionNumber"));
@@ -70,6 +73,7 @@ public class CoursesTablePage {
 
         backButton.setOnAction(e -> {
             HomePage homePage = new HomePage(stage);
+            stage.setTitle("ProfMeet Home Page");
             stage.getScene().setRoot(homePage.getView());
         });
 

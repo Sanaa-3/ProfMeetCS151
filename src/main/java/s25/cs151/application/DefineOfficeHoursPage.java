@@ -21,6 +21,7 @@ public class DefineOfficeHoursPage {
         this.officeHoursList = officeHoursList;
         this.view = View();
 
+        stage.setTitle("ProfMeet Define Office Hours Page");
         //Background Color
         view.setStyle("-fx-background-color: #A4C3A2");
         // stage.setScene(new Scene(view,1000,800));
@@ -35,7 +36,7 @@ public class DefineOfficeHoursPage {
         title.setStyle("-fx-font-size: 42px; -fx-font-weight: bold");
         GridPane form = new GridPane();
         form.setAlignment(Pos.CENTER);
-        form.setStyle("-fx-font-size: 32px;");
+        form.setStyle("-fx-font-size: 22px;");
         form.setHgap(10);
         form.setVgap(10);
 
@@ -81,6 +82,7 @@ public class DefineOfficeHoursPage {
         backButton.setOnAction(e -> {
             //stage.setScene(new Scene(previousPage, 700, 700))
             HomePage homePage = new HomePage(stage);
+            stage.setTitle("ProfMeet Home Page");
             stage.getScene().setRoot(homePage.getView());
         });
 

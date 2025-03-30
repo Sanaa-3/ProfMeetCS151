@@ -35,9 +35,11 @@ public class DefineSemesterTimeSlots {
         this.view = view();
 
         //Background color
-        view.setStyle("-fx-background-color: #A4C3A2");
+        view.setStyle("-fx-background-color: #A4C3A2; -fx-font-family: 'Arial'; -fx-font-size: 22px;");
        populateTimeComboBoxes();
 
+        // Update the title of the stage when this page is active
+        primaryStage.setTitle("ProfMeet Define Semester Time Slots Page");
     }
 
     private VBox view() {
@@ -68,6 +70,7 @@ public class DefineSemesterTimeSlots {
         //Cancel Button action
         cancelButton.setOnAction(event ->{
             HomePage homePage = new HomePage(primaryStage);
+            primaryStage.setTitle("ProfMeet Home Page");
             primaryStage.setScene(new Scene(homePage.getView(),1000,800));
         });
         //Save Button

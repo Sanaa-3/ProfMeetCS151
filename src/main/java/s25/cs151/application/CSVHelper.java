@@ -8,8 +8,9 @@ public class CSVHelper {
 
     // file path and its name - changed the path
 //    private static final String FILE_PATH = "office_hours.csv"; // File name
-    private static final String FILE_PATH = "src/main/java/s25/cs151/application/office_hours.csv"; // File name
-    private static final String COURSES_FILE_PATH = "src/main/java/s25/cs151/application/courses.csv";
+    private static final String FILE_PATH = "src/main/java/s25/cs151/application/DataFiles/office_hours.csv"; // File name
+    private static final String COURSES_FILE_PATH = "src/main/java/s25/cs151/application/DataFiles/courses.csv";
+ 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("hh:mm a").withLocale(Locale.US);
 
     // loads office hours from the CSV file
@@ -95,7 +96,8 @@ public class CSVHelper {
     //loads the time slots using the am pm format adn buffered reader
     public static List<TimeSlots> loadTimeSlots() {
         List<TimeSlots> timeSlotsList = new ArrayList<>();
-        String filePath = "src/main/java/s25/cs151/application/time_slots.csv";  // Ensure the path is correct
+        String filePath = "src/main/java/s25/cs151/application/DataFiles/time_slots.csv";  // Ensure the path is correct
+      
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;

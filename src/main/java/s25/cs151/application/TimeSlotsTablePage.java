@@ -25,6 +25,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
 
 public class TimeSlotsTablePage {
     private final Stage primaryStage;
@@ -36,13 +38,23 @@ public class TimeSlotsTablePage {
         this.tableView = new TableView<>();
         setupTable();
         updateTable(timeSlotsList);
+
+        primaryStage.setTitle("ProfMeet Time Slots Overview Page");
     }
 
+    //set up the table and decorate it
     //set up the table and decorate it
     private void setupTable() {
         Text titleText = new Text("Time Slots Overview");
         titleText.setStyle("-fx-font-size: 35px; -fx-font-weight: bold; -fx-fill: #2C2C2C; -fx-font-family: 'Arial';");
 
+        // Line # column (auto-numbered)
+        TableColumn<TimeSlots, Number> lineNumberCol = new TableColumn<>("#");
+        lineNumberCol.setCellValueFactory(cellData ->
+                new ReadOnlyIntegerWrapper(tableView.getItems().indexOf(cellData.getValue()) + 1)
+        );
+        lineNumberCol.setMinWidth(50);
+        lineNumberCol.setStyle("-fx-alignment: CENTER;");
         //set up the columns of the table, from and to hour
         TableColumn<TimeSlots, String> fromHourCol = new TableColumn<>("From Hour");
         fromHourCol.setCellValueFactory(new PropertyValueFactory<>("startTimeString"));
@@ -53,10 +65,13 @@ public class TimeSlotsTablePage {
         toHourCol.setMinWidth(140);
 
         String headerStyle = "-fx-font-size: 16px; -fx-font-weight: bold; -fx-alignment: CENTER; -fx-font-family: 'Arial';";
+        lineNumberCol.setStyle(headerStyle);
         fromHourCol.setStyle(headerStyle);
         toHourCol.setStyle(headerStyle);
 
-        tableView.getColumns().addAll(fromHourCol, toHourCol);
+        // Set up table with updated columns
+        tableView.getColumns().setAll(lineNumberCol, fromHourCol, toHourCol);
+        tableView.setPrefWidth(300);
         tableView.setStyle("-fx-background-color: #F4F4F4; -fx-border-color: #A4C3A2; -fx-border-width: 1px;");
 
     }
@@ -113,6 +128,7 @@ public class TimeSlotsTablePage {
         //make sure back button goes back to homepage
         backButton.setOnAction(e -> {
             HomePage homePage = new HomePage(primaryStage);
+            primaryStage.setTitle("ProfMeet Home Page");
             primaryStage.setScene(new Scene(homePage.getView(), 1000, 800));
         });
 

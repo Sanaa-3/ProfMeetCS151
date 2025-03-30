@@ -18,6 +18,8 @@ public class DefineCoursesPage {
         this.stage = stage;
         this.view = createView();
         this.view.setStyle("-fx-background-color: #A4C3A2");
+
+        stage.setTitle("ProfMeet Define Courses Page");
     }
 
     private VBox createView() {
@@ -30,7 +32,7 @@ public class DefineCoursesPage {
 
         GridPane form = new GridPane();
         form.setAlignment(Pos.CENTER);
-        form.setStyle("-fx-font-size: 32px;");
+        form.setStyle("-fx-font-size: 22px;");
         form.setHgap(10);
         form.setVgap(10);
 
@@ -85,6 +87,7 @@ public class DefineCoursesPage {
 
         backButton.setOnAction(e -> {
             HomePage homePage = new HomePage(stage);
+            stage.setTitle("ProfMeet Home Page");
             stage.getScene().setRoot(homePage.getView());
         });
 

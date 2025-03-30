@@ -26,6 +26,8 @@ public class OfficeHoursTablePage {
         this.stage = stage;
         this.table = new TableView<>();
         this.view = createView();
+
+        stage.setTitle("ProfMeet Office Hours Overview Page");
     }
 
     private VBox createView() {
@@ -55,7 +57,7 @@ public class OfficeHoursTablePage {
             List<String> days = data.getValue().getDays();
             return new javafx.beans.property.SimpleStringProperty(String.join(", ", days));
         });
-        daysCol.setMinWidth(150);
+        daysCol.setMinWidth(300);
 
         String headerStyle = "-fx-font-size: 16px; -fx-font-weight: bold; -fx-alignment: CENTER; -fx-font-family: 'Arial';";
         semesterCol.setStyle(headerStyle);
@@ -78,6 +80,7 @@ public class OfficeHoursTablePage {
 
         backButton.setOnAction(e -> {
             HomePage homePage = new HomePage(stage);
+            stage.setTitle("ProfMeet Home Page");
             stage.getScene().setRoot(homePage.getView());
         });
 
