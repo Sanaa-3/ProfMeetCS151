@@ -75,7 +75,7 @@ public class DefineSemesterTimeSlots {
         saveButton.setOnAction(event -> {
             saveTimeSlot();  // Save the current time slot to the list
             CSVHelper.saveTimeSlots(timeSlotsList);  // Save the time slots to CSV
-            showAlert("Time Slot Successfully Saved.");
+            showAlert("Time Slot successfully saved.");
         });
 
         HBox buttons = new HBox(20, saveButton, cancelButton);
