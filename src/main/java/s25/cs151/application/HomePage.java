@@ -99,7 +99,7 @@ public class HomePage{
 
         //To navigate to define semester time slots page
         defineSemSlots.setOnAction(e -> {
-            DefineSemesterTimeSlots defineSemSlots = new DefineSemesterTimeSlots(homeStage,timeSlotsList);
+            DefineSemesterTimeSlots defineSemSlots = new DefineSemesterTimeSlots(homeStage,CSVHelper.loadTimeSlots());
             homeStage.getScene().setRoot(defineSemSlots.getView());
         });
 
