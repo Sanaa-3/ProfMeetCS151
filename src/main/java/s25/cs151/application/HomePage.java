@@ -114,7 +114,7 @@ public class HomePage{
 
 
         //add all buttons to sidebar vbox
-        sidebar.getChildren().addAll(titleText, defineNewCourse, defineSemSlots, defineSemOfficeHours, viewAllOfficeHoursBtn, viewAllTimeSlotsBtn, viewAllCoursesBtn, settingsBtn);
+        sidebar.getChildren().addAll(titleText, defineNewCourse, defineSemSlots, defineSemOfficeHours, viewAllCoursesBtn, viewAllTimeSlotsBtn, viewAllOfficeHoursBtn, settingsBtn);
 
         //header and styling
         Text headerMsg = new Text("Welcome, Professor! Here's your office hour overview: ");
@@ -132,6 +132,11 @@ public class HomePage{
         scheduleBtn = new Button("Schedule a new \n   Office Hour");
         viewAllBtn = new Button("   View All \nAppointments");
         searchBtn = new Button("   Search for \nAppointments");
+
+        scheduleBtn.setOnAction(e -> {
+            ScheduleOfficeHoursPage scheduleOfficeHoursPage = new ScheduleOfficeHoursPage(homeStage);
+            homeStage.setScene(new Scene(scheduleOfficeHoursPage.getView(),1000,800));
+        });
 
         //stylize the buttons
         setMiddleButtonStyle(scheduleBtn);
