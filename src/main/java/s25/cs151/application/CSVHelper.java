@@ -2,6 +2,7 @@ package s25.cs151.application;
 import java.io.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class CSVHelper {
@@ -103,9 +104,18 @@ public class CSVHelper {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",");
-                LocalTime fromHour = LocalTime.parse(values[0].trim(), FORMATTER);
-                LocalTime toHour = LocalTime.parse(values[1].trim(), FORMATTER);
-                timeSlotsList.add(new TimeSlots(fromHour, toHour));
+                if (values.length < 2 || values[0].trim().isEmpty() || values[1].trim().isEmpty()) {
+                    //System.out.println("Skipping invalid or empty line: " + line);
+                    continue; // Skip this line
+                }
+
+                try {
+                    LocalTime fromHour = LocalTime.parse(values[0].trim(), FORMATTER);
+                    LocalTime toHour = LocalTime.parse(values[1].trim(), FORMATTER);
+                    timeSlotsList.add(new TimeSlots(fromHour, toHour));
+                } catch (DateTimeParseException e) {
+                    System.out.println("Skipping malformed time slot: " + line + " — " + e.getMessage());
+                }
             }
             timeSlotsList.sort(Comparator.comparing(TimeSlots::getStartTime).thenComparing(TimeSlots::getEndTime));
         } catch (IOException e) {
@@ -114,18 +124,24 @@ public class CSVHelper {
         return timeSlotsList;
     }
 
+
     public static void saveTimeSlots(List<TimeSlots> timeSlotsList) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(TIME_SLOTS_FILE_PATH, true))) {
             for (TimeSlots timeSlot : timeSlotsList) {
                 String fromTime = timeSlot.getStartTime().format(FORMATTER);
                 String toTime = timeSlot.getEndTime().format(FORMATTER);
-                writer.write(fromTime + ", " + toTime);
-                writer.newLine();
+                String line = fromTime + ", " + toTime;
+
+                if (!line.trim().isEmpty()) {
+                    writer.write(line);
+                    writer.newLine(); // Ensures consistent line breaks
+                }
             }
         } catch (IOException e) {
             System.err.println("Error saving time slots: " + e.getMessage());
         }
     }
+
 
     public static List<Course> loadCourses() {
         List<Course> coursesList = new ArrayList<>();
