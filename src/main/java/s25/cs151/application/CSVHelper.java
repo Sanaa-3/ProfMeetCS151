@@ -1,5 +1,6 @@
 package s25.cs151.application;
 import java.io.*;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -8,12 +9,12 @@ import java.util.*;
 public class CSVHelper {
 
     // file path and its name - changed the path
-//    private static final String FILE_PATH = "office_hours.csv"; // File name
     private static final String FILE_PATH = "src/main/java/s25/cs151/application/DataFiles/office_hours.csv"; // File name
     private static final String COURSES_FILE_PATH = "src/main/java/s25/cs151/application/DataFiles/courses.csv";
 
     private static final String TIME_SLOTS_FILE_PATH = "src/main/java/s25/cs151/application/DataFiles/time_slots.csv";
 
+    private static final String OFFICE_HOUR_SCHEDULE_PATH = "src/main/java/s25/cs151/application/DataFiles/scheduled_office_hours.csv";
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("hh:mm a").withLocale(Locale.US);
 
@@ -191,6 +192,72 @@ public class CSVHelper {
             System.err.println("Error saving course: " + e.getMessage());
         }
     }
+
+    public static void saveScheduledOfficeHour(String studentName, LocalDate date, String timeSlot, String course, String reason, String comment) {
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(OFFICE_HOUR_SCHEDULE_PATH, true))) {
+            String line = String.join(",",
+                    "\"" + studentName + "\"",
+                    date.toString(),
+                    "\"" + timeSlot + "\"",
+                    "\"" + course + "\"",
+                    "\"" + reason + "\"",
+                    "\"" + comment + "\""
+            );
+            bw.write(line);
+            bw.newLine();
+        } catch (IOException e) {
+            System.err.println("Error saving scheduled office hour: " + e.getMessage());
+        }
+    }
+
+    public static List<ScheduledOfficeHours> loadScheduledOfficeHours() {
+        List<ScheduledOfficeHours> appointments = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(OFFICE_HOUR_SCHEDULE_PATH))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) continue;
+
+                // Use a more reliable approach to split by commas, handling quotes around values
+                String[] parts = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)"); // Split on commas that aren't inside quotes
+
+                // Clean up parts by trimming and removing quotes
+                for (int i = 0; i < parts.length; i++) {
+                    parts[i] = parts[i].replace("\"", "").trim(); // Removing extra quotes and trimming spaces
+                }
+
+                // Ensure there are exactly 6 fields to avoid errors
+                if (parts.length == 6) {
+                    String studentName = parts[0];  // Student Name
+                    String date = parts[1];         // Date
+                    String timeSlot = parts[2];     // Time Slot
+                    String course = parts[3];       // Course
+                    String reason = parts[4];       // Reason
+                    String comment = parts[5];      // Comment
+
+                    // Create a new ScheduledOfficeHours object and add it to the list
+                    ScheduledOfficeHours appointment = new ScheduledOfficeHours(studentName, date, timeSlot, course, reason, comment);
+                    appointments.add(appointment);
+                } else {
+                    System.err.println("Skipping invalid line (incorrect number of columns): " + line);
+                }
+            }
+
+            // Sort by date then time slot
+            appointments.sort(Comparator.comparing(ScheduledOfficeHours::getDate)
+                    .thenComparing(ScheduledOfficeHours::getTimeSlot));
+
+        } catch (IOException e) {
+            System.err.println("Error loading scheduled office hours: " + e.getMessage());
+        }
+
+        return appointments;
+    }
+
+
+
+
 
 
 }

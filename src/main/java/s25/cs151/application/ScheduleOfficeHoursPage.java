@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class ScheduleOfficeHoursPage {
@@ -21,6 +22,8 @@ public class ScheduleOfficeHoursPage {
     public ScheduleOfficeHoursPage(Stage stage) {
         this.stage = stage;
         this.view = createView();
+
+        stage.setTitle("ProfMeet Schedule a new Office Hour Page");
     }
 
     private VBox createView() {
@@ -123,6 +126,11 @@ public class ScheduleOfficeHoursPage {
             // save the appointment
             System.out.println("Saved appointment for " + name + " on " + date);
 
+            //saveOfficeHour(name, date, timeSlot, course, reason, comment);
+            //CSVHelper.saveTimeSlots(saveOfficeHour);  // Save the time slots to CSV
+            CSVHelper.saveScheduledOfficeHour(name, date, timeSlot, course, reason, comment);
+
+
             showAlert("Office hour scheduled successfully.");
         });
 
@@ -136,6 +144,8 @@ public class ScheduleOfficeHoursPage {
         root.getChildren().addAll(title, form, buttonBox);
         return root;
     }
+
+
 
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

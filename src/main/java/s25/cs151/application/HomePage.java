@@ -23,7 +23,7 @@ public class HomePage{
     private Button settingsBtn;
     private Button scheduleBtn;
     private Button viewAllOfficeHoursBtn;
-    private Button viewAllBtn;
+    private Button viewAllAppointmentsBtn;
     private Button searchBtn;
     private Button viewAllCoursesBtn;
     private Button viewAllTimeSlotsBtn;
@@ -58,7 +58,6 @@ public class HomePage{
         viewAllCoursesBtn = new Button("View All Courses");
         settingsBtn = new Button("Settings");
         viewAllTimeSlotsBtn = new Button("View All Time Slots");
-
 
         //Stylize sidebar buttons using the helper function
         setSideButtonStyle(defineSemOfficeHours);
@@ -130,7 +129,7 @@ public class HomePage{
         actionButtons.setPadding(new Insets(30, 40, 20, 40));
 
         scheduleBtn = new Button("Schedule a new \n   Office Hour");
-        viewAllBtn = new Button("   View All \nAppointments");
+        viewAllAppointmentsBtn = new Button("   View All \nAppointments");
         searchBtn = new Button("   Search for \nAppointments");
 
         scheduleBtn.setOnAction(e -> {
@@ -138,13 +137,20 @@ public class HomePage{
             homeStage.setScene(new Scene(scheduleOfficeHoursPage.getView(),1000,800));
         });
 
+        viewAllAppointmentsBtn.setOnAction(e -> {
+            ViewAppointmentsPage viewAppointmentsPage = new ViewAppointmentsPage(homeStage);
+            homeStage.setScene(new Scene(viewAppointmentsPage.getView(), 1000, 800));
+        });
+
+
+
         //stylize the buttons
         setMiddleButtonStyle(scheduleBtn);
-        setMiddleButtonStyle(viewAllBtn);
+        setMiddleButtonStyle(viewAllAppointmentsBtn);
         setMiddleButtonStyle(searchBtn);
 
         // Add buttons to action panel
-        actionButtons.getChildren().addAll(scheduleBtn, viewAllBtn, searchBtn);
+        actionButtons.getChildren().addAll(scheduleBtn, viewAllAppointmentsBtn, searchBtn);
 
         // Adding action buttons to the appointment page
         appointmentPg.getChildren().add(actionButtons);
