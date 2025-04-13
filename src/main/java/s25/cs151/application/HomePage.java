@@ -29,13 +29,13 @@ public class HomePage{
     private Button viewAllTimeSlotsBtn;
     private Stage homeStage;
     private List<SemesterOfficeHours> officeHoursList;
-    private final OfficeHoursTablePage officeHoursTablePage;
+    private final SemOfficeHoursTablePage officeHoursTablePage;
     private List<TimeSlots> timeSlotsList;
 
     public HomePage(Stage homeStage){
         this.homeStage = homeStage;
         this.officeHoursList = new ArrayList<>();
-        this.officeHoursTablePage = new OfficeHoursTablePage(homeStage);
+        this.officeHoursTablePage = new SemOfficeHoursTablePage(homeStage);
     }
     public BorderPane getView(){
         BorderPane root = new BorderPane(); // Ensure this is used for the layout
@@ -54,7 +54,7 @@ public class HomePage{
         defineSemOfficeHours = new Button("Define Semester Office Hours");
         defineSemSlots = new Button("Define Semester Time Slots");
         defineNewCourse = new Button("Define New Course");
-        viewAllOfficeHoursBtn = new Button("View Office Hours");
+        viewAllOfficeHoursBtn = new Button("View Semester Office Hours");
         viewAllCoursesBtn = new Button("View All Courses");
         settingsBtn = new Button("Settings");
         viewAllTimeSlotsBtn = new Button("View All Time Slots");
@@ -71,7 +71,7 @@ public class HomePage{
 
         //go to define sem office hours page on click
         defineSemOfficeHours.setOnAction(e -> {
-            DefineOfficeHoursPage definePage = new DefineOfficeHoursPage(homeStage, officeHoursList);
+            DefineSemOfficeHoursPage definePage = new DefineSemOfficeHoursPage(homeStage, officeHoursList);
             //System.out.println("Define Semester Office Hours button clicked.");
             //homeStage.setScene(new Scene(definePage.getView(), 700, 700));
             homeStage.setScene(new Scene(definePage.getView(),1000,800));
@@ -91,7 +91,7 @@ public class HomePage{
 
         //view all office hours, loads it upon clicking of button and sorts data
         viewAllOfficeHoursBtn.setOnAction(e -> {
-            OfficeHoursTablePage tablePage = new OfficeHoursTablePage(homeStage);
+            SemOfficeHoursTablePage tablePage = new SemOfficeHoursTablePage(homeStage);
             tablePage.updateTable(CSVHelper.loadOfficeHours());
             homeStage.getScene().setRoot(tablePage.getView());
         });

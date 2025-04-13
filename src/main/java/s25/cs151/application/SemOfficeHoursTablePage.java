@@ -3,7 +3,6 @@ package s25.cs151.application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -15,14 +14,13 @@ import javafx.stage.Stage;
 import javafx.scene.text.Text;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class OfficeHoursTablePage {
+public class SemOfficeHoursTablePage {
     private final Stage stage;
     private final VBox view;
     private final TableView<SemesterOfficeHours> table;
 
-    public OfficeHoursTablePage(Stage stage) {
+    public SemOfficeHoursTablePage(Stage stage) {
         this.stage = stage;
         this.table = new TableView<>();
         this.view = createView();
