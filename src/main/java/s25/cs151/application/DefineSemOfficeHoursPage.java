@@ -1,7 +1,6 @@
 package s25.cs151.application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -10,12 +9,12 @@ import javafx.scene.Parent;
 import javafx.stage.Stage;
 import java.util.*;
 
-public class DefineOfficeHoursPage {
+public class DefineSemOfficeHoursPage {
     private final Stage stage;
     private final VBox view;
     private final List<SemesterOfficeHours> officeHoursList;
 
-    public DefineOfficeHoursPage(Stage stage, List<SemesterOfficeHours> officeHoursList) {
+    public DefineSemOfficeHoursPage(Stage stage, List<SemesterOfficeHours> officeHoursList) {
         this.stage = stage;
         //this.officeHoursList = (List<s25.cs151.application.SemesterOfficeHours>) officeHoursList;
         this.officeHoursList = officeHoursList;

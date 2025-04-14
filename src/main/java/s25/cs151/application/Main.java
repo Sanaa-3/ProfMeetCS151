@@ -21,7 +21,7 @@ public class Main extends Application {
         Scene scene = new Scene(home.getView(), 1000, 800);
 
         // testing define page
-//        DefineOfficeHoursPage definePage = new DefineOfficeHoursPage(primaryStage, home.getView());
+//        DefineSemOfficeHoursPage definePage = new DefineSemOfficeHoursPage(primaryStage, home.getView());
 //        Scene scene2 = new Scene(definePage.getView(), 500, 500);
 
         //set Homepage title, and set the scene for it

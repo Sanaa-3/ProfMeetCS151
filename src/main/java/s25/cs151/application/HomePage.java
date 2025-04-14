@@ -29,13 +29,13 @@ public class HomePage{
     private Button viewAllTimeSlotsBtn;
     private Stage homeStage;
     private List<SemesterOfficeHours> officeHoursList;
-    private final OfficeHoursTablePage officeHoursTablePage;
+    private final SemOfficeHoursTablePage officeHoursTablePage;
     private List<TimeSlots> timeSlotsList;
 
     public HomePage(Stage homeStage){
         this.homeStage = homeStage;
         this.officeHoursList = new ArrayList<>();
-        this.officeHoursTablePage = new OfficeHoursTablePage(homeStage);
+        this.officeHoursTablePage = new SemOfficeHoursTablePage(homeStage);
     }
     public BorderPane getView(){
         BorderPane root = new BorderPane(); // Ensure this is used for the layout
@@ -54,7 +54,7 @@ public class HomePage{
         defineSemOfficeHours = new Button("Define Semester Office Hours");
         defineSemSlots = new Button("Define Semester Time Slots");
         defineNewCourse = new Button("Define New Course");
-        viewAllOfficeHoursBtn = new Button("View Office Hours");
+        viewAllOfficeHoursBtn = new Button("View Semester Office Hours");
         viewAllCoursesBtn = new Button("View All Courses");
         settingsBtn = new Button("Settings");
         viewAllTimeSlotsBtn = new Button("View All Time Slots");
@@ -71,7 +71,7 @@ public class HomePage{
 
         //go to define sem office hours page on click
         defineSemOfficeHours.setOnAction(e -> {
-            DefineOfficeHoursPage definePage = new DefineOfficeHoursPage(homeStage, officeHoursList);
+            DefineSemOfficeHoursPage definePage = new DefineSemOfficeHoursPage(homeStage, officeHoursList);
             //System.out.println("Define Semester Office Hours button clicked.");
             //homeStage.setScene(new Scene(definePage.getView(), 700, 700));
             homeStage.setScene(new Scene(definePage.getView(),1000,800));
@@ -91,7 +91,7 @@ public class HomePage{
 
         //view all office hours, loads it upon clicking of button and sorts data
         viewAllOfficeHoursBtn.setOnAction(e -> {
-            OfficeHoursTablePage tablePage = new OfficeHoursTablePage(homeStage);
+            SemOfficeHoursTablePage tablePage = new SemOfficeHoursTablePage(homeStage);
             tablePage.updateTable(CSVHelper.loadOfficeHours());
             homeStage.getScene().setRoot(tablePage.getView());
         });
@@ -119,7 +119,7 @@ public class HomePage{
         //header and styling
         Text headerMsg = new Text("Welcome, Professor! Here's your office hour overview: ");
         HBox header = new HBox(headerMsg);
-        header.setStyle("-fx-background-color: #D7F9FA; -fx-font-size: 25px; -fx-alignment: center;;");
+        header.setStyle("-fx-background-color: #E6EAE4; -fx-font-size: 25px; -fx-alignment: center;;");
         header.setPadding(new Insets(15, 40, 20, 40));
 
         //main content
@@ -179,14 +179,30 @@ public class HomePage{
 
     // Helper function to stylize a button
     private void setSideButtonStyle(Button button) {
-        button.setStyle(
-                "-fx-background-color: #E2DFDA; " +
-                        "-fx-text-fill: #2C2C2C; " +
-                        "-fx-font-size: 16px; " +
-                        "-fx-font-family: 'Arial'; " +
-                        "-fx-padding: 15px 20px; " +
-                        "-fx-font-weight: bold;");
+        String defaultStyle = "-fx-background-color: #E2DFDA; " +
+                "-fx-text-fill: #2C2C2C; " +
+                "-fx-font-size: 16px; " +
+                "-fx-font-family: 'Arial'; " +
+                "-fx-padding: 15px 20px; " +
+                "-fx-font-weight: bold;";
+        button.setStyle(defaultStyle);
         button.setPrefWidth(270);  // Consistent button width
+
+        //Hover over
+        button.setOnMouseEntered(e -> {
+            button.setStyle(
+                    "-fx-background-color: #DADDE2;" +
+                            "-fx-text-fill: #212C2C; " +
+                            "-fx-font-size: 16px; " +
+                            "-fx-font-family: 'Arial'; " +
+                            "-fx-padding: 15px 20px; " +
+                            "-fx-font-weight: bold;" +
+                    "-fx-effect: dropshadow(gaussian, #000000, 10, 0, 0, 5);");
+        });
+
+        button.setOnMouseExited(e -> {
+            button.setStyle(defaultStyle);
+        });
     }
 
 }
