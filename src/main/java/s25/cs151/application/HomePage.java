@@ -143,6 +143,11 @@ public class HomePage{
             homeStage.setScene(new Scene(viewAppointmentsPage.getView(), 1000, 800));
         });
 
+        searchBtn.setOnAction(e -> {
+            SearchAppointmentsPage searchPage = new SearchAppointmentsPage(homeStage);
+            homeStage.setScene(new Scene(searchPage.getView(), 1000, 800));
+        });
+
 
 
         //stylize the buttons
