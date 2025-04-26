@@ -11,13 +11,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+import java.io.IOException;
 import java.util.List;
 
 public class SearchAppointmentsPage {
     private final Stage stage;
     private final TableView<ScheduledOfficeHours> tableView;
     private FilteredList<ScheduledOfficeHours> filteredAppointments;
+    private ObservableList<ScheduledOfficeHours> observableAppointments;
 
     public SearchAppointmentsPage(Stage stage) {
         this.stage = stage;
@@ -62,9 +63,11 @@ public class SearchAppointmentsPage {
 
         //event listener for searching table view
         searchField.textProperty().addListener((obs, oldVal, newVal) -> {
-            String lowerCaseSearch = newVal.toLowerCase();
-            filteredAppointments.setPredicate(appointment ->
-                    appointment.getStudentName().toLowerCase().contains(lowerCaseSearch));
+            if (filteredAppointments != null) {
+                String lowerCaseSearch = newVal.toLowerCase();
+                filteredAppointments.setPredicate(appointment ->
+                        appointment.getStudentName().toLowerCase().contains(lowerCaseSearch));
+            }
         });
 
         //decoration for the search field
@@ -88,10 +91,20 @@ public class SearchAppointmentsPage {
         root.setTop(topBox);
 
         //load the csv for the appointments
-        List<ScheduledOfficeHours> appointments = CSVHelper.loadScheduledOfficeHours();
-        ObservableList<ScheduledOfficeHours> observableAppointments = FXCollections.observableArrayList(appointments);
-        filteredAppointments = new FilteredList<>(observableAppointments, p -> true);
-        tableView.setItems(filteredAppointments);
+        try {
+            List<ScheduledOfficeHours> appointments = CSVHelper.loadScheduledOfficeHours();
+            System.out.println("Loaded " + appointments.size() + " appointments");
+            observableAppointments = FXCollections.observableArrayList(appointments);
+            filteredAppointments = new FilteredList<>(observableAppointments, p -> true);
+            tableView.setItems(filteredAppointments);
+        } catch (Exception e) {
+            System.err.println("Error loading appointments: " + e.getMessage());
+            e.printStackTrace();
+            observableAppointments = FXCollections.observableArrayList();
+            filteredAppointments = new FilteredList<>(observableAppointments, p -> true);
+            tableView.setItems(filteredAppointments);
+            showAlert("Failed to load appointments: " + e.getMessage());
+        }
 
         //table setup
         setupTable();
@@ -119,38 +132,76 @@ public class SearchAppointmentsPage {
     }
 
     private void setupTable() {
-        TableColumn<ScheduledOfficeHours, Number> indexColumn = new TableColumn<>("#");
-        indexColumn.setCellValueFactory(cellData ->
-                new ReadOnlyIntegerWrapper(tableView.getItems().indexOf(cellData.getValue()) + 1));
-        indexColumn.setMinWidth(40);
-        indexColumn.setStyle("-fx-alignment: CENTER;");
+        try {
+            TableColumn<ScheduledOfficeHours, Number> indexColumn = new TableColumn<>("#");
+            indexColumn.setCellValueFactory(cellData ->
+                    new ReadOnlyIntegerWrapper(tableView.getItems().indexOf(cellData.getValue()) + 1));
+            indexColumn.setMinWidth(40);
+            indexColumn.setStyle("-fx-alignment: CENTER;");
 
-        TableColumn<ScheduledOfficeHours, String> nameCol = new TableColumn<>("Student Name");
-        nameCol.setCellValueFactory(cell -> cell.getValue().studentNameProperty());
-        nameCol.setMinWidth(150);
+            TableColumn<ScheduledOfficeHours, String> nameCol = new TableColumn<>("Student Name");
+            nameCol.setCellValueFactory(cell -> cell.getValue().studentNameProperty());
+            nameCol.setMinWidth(150);
 
-        TableColumn<ScheduledOfficeHours, String> dateCol = new TableColumn<>("Date");
-        dateCol.setCellValueFactory(cell -> cell.getValue().dateProperty());
-        dateCol.setMinWidth(100);
+            TableColumn<ScheduledOfficeHours, String> dateCol = new TableColumn<>("Date");
+            dateCol.setCellValueFactory(cell -> cell.getValue().dateProperty());
+            dateCol.setMinWidth(100);
 
-        TableColumn<ScheduledOfficeHours, String> timeCol = new TableColumn<>("Time Slot");
-        timeCol.setCellValueFactory(cell -> cell.getValue().timeSlotProperty());
-        timeCol.setMinWidth(120);
+            TableColumn<ScheduledOfficeHours, String> timeCol = new TableColumn<>("Time Slot");
+            timeCol.setCellValueFactory(cell -> cell.getValue().timeSlotProperty());
+            timeCol.setMinWidth(120);
 
-        TableColumn<ScheduledOfficeHours, String> courseCol = new TableColumn<>("Course");
-        courseCol.setCellValueFactory(cell -> cell.getValue().courseProperty());
-        courseCol.setMinWidth(200);
+            TableColumn<ScheduledOfficeHours, String> courseCol = new TableColumn<>("Course");
+            courseCol.setCellValueFactory(cell -> cell.getValue().courseProperty());
+            courseCol.setMinWidth(200);
 
-        TableColumn<ScheduledOfficeHours, String> reasonCol = new TableColumn<>("Reason");
-        reasonCol.setCellValueFactory(cell -> cell.getValue().reasonProperty());
-        reasonCol.setMinWidth(150);
+            TableColumn<ScheduledOfficeHours, String> reasonCol = new TableColumn<>("Reason");
+            reasonCol.setCellValueFactory(cell -> cell.getValue().reasonProperty());
+            reasonCol.setMinWidth(150);
 
-        TableColumn<ScheduledOfficeHours, String> commentCol = new TableColumn<>("Comment");
-        commentCol.setCellValueFactory(cell -> cell.getValue().commentProperty());
-        commentCol.setMinWidth(200);
+            TableColumn<ScheduledOfficeHours, String> commentCol = new TableColumn<>("Comment");
+            commentCol.setCellValueFactory(cell -> cell.getValue().commentProperty());
+            commentCol.setMinWidth(200);
 
-        tableView.getColumns().setAll(indexColumn, nameCol, dateCol, timeCol, courseCol, reasonCol, commentCol);
-        tableView.setStyle("-fx-background-color: #FFFFFF;");
+            TableColumn<ScheduledOfficeHours, Void> deleteCol = new TableColumn<>("Action");
+            deleteCol.setMinWidth(100);
+            deleteCol.setCellFactory(col -> new TableCell<ScheduledOfficeHours, Void>() {
+                private final Button deleteButton = new Button("Delete");
+
+                {
+                    setButtonStyle(deleteButton);
+                    deleteButton.setOnAction(e -> {
+                        ScheduledOfficeHours appointment = getTableView().getItems().get(getIndex());
+                        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+                        confirmation.setTitle("Confirm Deletion");
+                        confirmation.setHeaderText("Delete appointment for " + appointment.getStudentName() + "?");
+                        confirmation.setContentText("Are you sure you want to delete this appointment?");
+                        confirmation.showAndWait().filter(response -> response == ButtonType.OK).ifPresent(response -> {
+                            try {
+                                CSVHelper.deleteScheduledOfficeHours(appointment);
+                                observableAppointments.remove(appointment);
+                                tableView.refresh();
+                                showAlert("Appointment deleted successfully!");
+                            } catch (IOException ex) {
+                                showAlert("Error deleting appointment: " + ex.getMessage());
+                            }
+                        });
+                    });
+                }
+
+                @Override
+                protected void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setGraphic(empty ? null : deleteButton);
+                }
+            });
+
+            tableView.getColumns().setAll(deleteCol, indexColumn, nameCol, dateCol, timeCol, courseCol, reasonCol, commentCol);
+            tableView.setStyle("-fx-background-color: #FFFFFF;");
+        } catch (Exception e) {
+            System.err.println("Error setting up table: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     //set up style for all buttons
@@ -166,5 +217,11 @@ public class SearchAppointmentsPage {
                         "-fx-border-width: 2px; " +
                         "-fx-border-radius: 5px; " +
                         "-fx-background-radius: 5px;");
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

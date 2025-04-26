@@ -255,9 +255,26 @@ public class CSVHelper {
         return appointments;
     }
 
+    public static void deleteScheduledOfficeHours(ScheduledOfficeHours appointmentToDelete) throws IOException {
+        List<ScheduledOfficeHours> allAppointments = loadScheduledOfficeHours();
 
+        // Remove the matching appointment
+        allAppointments.removeIf(appointment -> appointment.equals(appointmentToDelete));
 
-
-
-
+        // Rewrite the CSV file
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(OFFICE_HOUR_SCHEDULE_PATH))) {
+            for (ScheduledOfficeHours appointment : allAppointments) {
+                String line = String.join(",",
+                        "\"" + appointment.getStudentName() + "\"",
+                        appointment.getDate(),
+                        "\"" + appointment.getTimeSlot() + "\"",
+                        "\"" + appointment.getCourse() + "\"",
+                        "\"" + appointment.getReason() + "\"",
+                        "\"" + appointment.getComment() + "\""
+                );
+                bw.write(line);
+                bw.newLine();
+            }
+        }
+    }
 }
