@@ -94,6 +94,17 @@ public class SearchAppointmentsPage {
         try {
             List<ScheduledOfficeHours> appointments = CSVHelper.loadScheduledOfficeHours();
             System.out.println("Loaded " + appointments.size() + " appointments");
+
+            //Sort appointments in descending order
+            appointments.sort((a1, a2) -> {
+                int dateCompare = a2.getDate().compareTo(a1.getDate());
+                if (dateCompare != 0) {
+                    return dateCompare;
+                }
+                return a2.getTimeSlot().compareTo(a1.getTimeSlot());
+            });
+
+
             observableAppointments = FXCollections.observableArrayList(appointments);
             filteredAppointments = new FilteredList<>(observableAppointments, p -> true);
             tableView.setItems(filteredAppointments);
@@ -169,7 +180,9 @@ public class SearchAppointmentsPage {
                 private final Button deleteButton = new Button("Delete");
 
                 {
+
                     setButtonStyle(deleteButton);
+
                     deleteButton.setOnAction(e -> {
                         ScheduledOfficeHours appointment = getTableView().getItems().get(getIndex());
                         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
@@ -211,7 +224,7 @@ public class SearchAppointmentsPage {
                         "-fx-text-fill: #2C2C2C; " +
                         "-fx-font-size: 16px; " +
                         "-fx-font-family: 'Arial'; " +
-                        "-fx-padding: 10px 20px; " +
+                        "-fx-padding: 5px 20px; " +
                         "-fx-font-weight: bold; " +
                         "-fx-border-color: #4A4A4A; " +
                         "-fx-border-width: 2px; " +
