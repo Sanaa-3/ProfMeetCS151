@@ -3,6 +3,8 @@ package s25.cs151.application;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+import java.util.Objects;
+
 public class ScheduledOfficeHours {
     private final StringProperty studentName;
     private final StringProperty date;
@@ -68,5 +70,18 @@ public class ScheduledOfficeHours {
 
     public String getComment() {
         return comment.get();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ScheduledOfficeHours that = (ScheduledOfficeHours) o;
+        return Objects.equals(getStudentName(), that.getStudentName()) &&
+                Objects.equals(getDate(), that.getDate()) &&
+                Objects.equals(getTimeSlot(), that.getTimeSlot()) &&
+                Objects.equals(getCourse(), that.getCourse()) &&
+                Objects.equals(getReason(), that.getReason()) &&
+                Objects.equals(getComment(), that.getComment());
     }
 }
