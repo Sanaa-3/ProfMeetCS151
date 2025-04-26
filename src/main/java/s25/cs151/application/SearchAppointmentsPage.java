@@ -152,7 +152,7 @@ public class SearchAppointmentsPage {
 
             TableColumn<ScheduledOfficeHours, String> nameCol = new TableColumn<>("Student Name");
             nameCol.setCellValueFactory(cell -> cell.getValue().studentNameProperty());
-            nameCol.setMinWidth(150);
+            nameCol.setMinWidth(100);
 
             TableColumn<ScheduledOfficeHours, String> dateCol = new TableColumn<>("Date");
             dateCol.setCellValueFactory(cell -> cell.getValue().dateProperty());
@@ -164,7 +164,7 @@ public class SearchAppointmentsPage {
 
             TableColumn<ScheduledOfficeHours, String> courseCol = new TableColumn<>("Course");
             courseCol.setCellValueFactory(cell -> cell.getValue().courseProperty());
-            courseCol.setMinWidth(200);
+            courseCol.setMinWidth(350);
 
             TableColumn<ScheduledOfficeHours, String> reasonCol = new TableColumn<>("Reason");
             reasonCol.setCellValueFactory(cell -> cell.getValue().reasonProperty());
@@ -182,6 +182,7 @@ public class SearchAppointmentsPage {
                 {
 
                     setButtonStyle(deleteButton);
+                    //cente the button
 
                     deleteButton.setOnAction(e -> {
                         ScheduledOfficeHours appointment = getTableView().getItems().get(getIndex());
@@ -222,7 +223,7 @@ public class SearchAppointmentsPage {
         button.setStyle(
                 "-fx-background-color: #E2DFDA; " +
                         "-fx-text-fill: #2C2C2C; " +
-                        "-fx-font-size: 16px; " +
+                        "-fx-font-size: 12px; " +
                         "-fx-font-family: 'Arial'; " +
                         "-fx-padding: 5px 20px; " +
                         "-fx-font-weight: bold; " +

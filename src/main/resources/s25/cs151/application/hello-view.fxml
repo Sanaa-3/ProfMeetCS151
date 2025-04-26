@@ -13,4 +13,9 @@
 
     <Label fx:id="welcomeText"/>
     <Button text="Hello!" onAction="#onHelloButtonClick"/>
+
+    <!-- NEW VBox for Quick Stats -->
+    <VBox fx:id="quickStatsContainer" spacing="10" alignment="CENTER"/>
 </VBox>
+
+

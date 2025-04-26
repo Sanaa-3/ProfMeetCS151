@@ -1,13 +1,15 @@
 package s25.cs151.application;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.Parent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class DefineCoursesPage {
@@ -76,7 +78,17 @@ public class DefineCoursesPage {
             Course course = new Course(courseCode, courseName, sectionNumber);
             try {
                 CSVHelper.saveCourse(course);
+
+                // Update the stats
+                MainController.getQuickStatsUI().updateStats();
+
+                // Manually refresh the QuickStats UI
+                // Forcefully bind the texts again to make sure the latest values are shown
+                MainController.getQuickStatsUI().forceRefresh();
+
                 showAlert("Course saved successfully!");
+
+                // Optionally: Clear the fields after saving
                 codeField.clear();
                 nameField.clear();
                 sectionField.clear();
@@ -84,6 +96,9 @@ public class DefineCoursesPage {
                 showAlert(ex.getMessage());
             }
         });
+
+
+
 
         backButton.setOnAction(e -> {
             HomePage homePage = new HomePage(stage);

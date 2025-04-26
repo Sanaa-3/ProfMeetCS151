@@ -14,6 +14,8 @@ import javafx.scene.layout.BorderPane;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class HomePage{
 
@@ -37,50 +39,132 @@ public class HomePage{
         this.officeHoursList = new ArrayList<>();
         this.officeHoursTablePage = new SemOfficeHoursTablePage(homeStage);
     }
-    public BorderPane getView(){
-        BorderPane root = new BorderPane(); // Ensure this is used for the layout
+    public BorderPane getView() {
+        BorderPane root = new BorderPane();
 
-        //title text
+        // Title text
         Text titleText = new Text("ProfMeet");
-        titleText.setStyle("-fx-font-size: 42px; -fx-font-weight: bold; -fx-font-family: 'Palatino'; -fx-fill: #2C2C2C;");
+        titleText.setStyle("-fx-font-size: 46px; -fx-font-weight: bold; -fx-font-family: 'Palatino'; -fx-fill: #2C2C2C;");
 
-        //sidebar of application
-        VBox sidebar = new VBox(20);
+        // Sidebar (left side) - Define buttons + Settings
+        VBox sidebar = new VBox(25);
         sidebar.setStyle("-fx-background-color: linear-gradient(to bottom, #5D7B6F, #EAE7D6);");
-        sidebar.setPadding(new Insets(20));
+        sidebar.setPadding(new Insets(30));
         sidebar.setAlignment(Pos.TOP_CENTER);
 
-        //create buttons
         defineSemOfficeHours = new Button("Define Semester Office Hours");
         defineSemSlots = new Button("Define Semester Time Slots");
         defineNewCourse = new Button("Define New Course");
-        viewAllOfficeHoursBtn = new Button("View Semester Office Hours");
-        viewAllCoursesBtn = new Button("View All Courses");
         settingsBtn = new Button("Settings");
-        viewAllTimeSlotsBtn = new Button("View All Time Slots");
 
-        //Stylize sidebar buttons using the helper function
+        // Style and add buttons to sidebar
         setSideButtonStyle(defineSemOfficeHours);
         setSideButtonStyle(defineSemSlots);
         setSideButtonStyle(defineNewCourse);
         setSideButtonStyle(settingsBtn);
-        setSideButtonStyle(viewAllOfficeHoursBtn);
-        setSideButtonStyle(viewAllTimeSlotsBtn);
-        setSideButtonStyle(viewAllCoursesBtn);
+        sidebar.getChildren().addAll(titleText, defineNewCourse, defineSemSlots, defineSemOfficeHours, settingsBtn);
+
+        // Header
+        Text headerMsg = new Text("Welcome, Professor! Here's your office hour overview:");
+        HBox header = new HBox(headerMsg);
+        header.setAlignment(Pos.CENTER);
+        header.setStyle("-fx-background-color: #E6EAE4; -fx-font-size: 25px;");
+        header.setPadding(new Insets(15, 40, 20, 40));
+
+        // Center area
+        VBox centerArea = new VBox(30);
+        centerArea.setPadding(new Insets(30));
+        centerArea.setAlignment(Pos.TOP_CENTER);
+        centerArea.setStyle("-fx-background-color: #A4C3A2;");
+
+        // View/Search/Schedule Buttons
+        viewAllCoursesBtn = new Button("View All Courses");
+        viewAllTimeSlotsBtn = new Button("View All Time Slots");
+        viewAllOfficeHoursBtn = new Button("View Semester Office Hours");
+        scheduleBtn = new Button("Schedule New Office Hour");
+        viewAllAppointmentsBtn = new Button("View All Appointments");
+        searchBtn = new Button("Search Appointments");
+
+        setMiddleButtonStyle(viewAllCoursesBtn);
+        setMiddleButtonStyle(viewAllTimeSlotsBtn);
+        setMiddleButtonStyle(viewAllOfficeHoursBtn);
+        setMiddleButtonStyle(scheduleBtn);
+        setMiddleButtonStyle(viewAllAppointmentsBtn);
+        setMiddleButtonStyle(searchBtn);
+
+        VBox buttonsSection = new VBox(20);
+        buttonsSection.setAlignment(Pos.CENTER);
+
+// Row 1
+        HBox row1 = new HBox(30);
+        row1.setAlignment(Pos.CENTER);
+        row1.getChildren().addAll(viewAllCoursesBtn, viewAllTimeSlotsBtn);
+
+// Row 2
+        HBox row2 = new HBox(30);
+        row2.setAlignment(Pos.CENTER);
+        row2.getChildren().addAll(viewAllOfficeHoursBtn, scheduleBtn);
+
+// Row 3
+        HBox row3 = new HBox(30);
+        row3.setAlignment(Pos.CENTER);
+        row3.getChildren().addAll(viewAllAppointmentsBtn, searchBtn);
+
+        // Add all rows to VBox
+        buttonsSection.getChildren().addAll(row1, row2, row3);
+
+        // Quick Stats Panel
+        VBox quickStats = new VBox(10);
+        quickStats.setAlignment(Pos.CENTER);
+        quickStats.setStyle("-fx-background-color: #E2DFDA; -fx-padding: 20px; -fx-background-radius: 10px;");
+
+        Text quickStatsTitle = new Text("Quick Stats");
+        quickStatsTitle.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-font-family: 'Arial';");
+
+        // Use IntegerProperty for dynamic updating
+        IntegerProperty appointmentsScheduled = new SimpleIntegerProperty(CSVHelper.getScheduledAppointmentsCount());  // Fetch actual data from CSVHelper
+        IntegerProperty coursesThisSemester = new SimpleIntegerProperty(CSVHelper.getCoursesCount());     // Fetch actual data from CSVHelper
+        IntegerProperty officeHoursScheduled = new SimpleIntegerProperty(CSVHelper.getOfficeHoursCount());    // Fetch actual data from CSVHelper
+        IntegerProperty timeSlotsAvailable = new SimpleIntegerProperty(CSVHelper.loadTimeSlots().size()); // Fetch actual time slots count
+
+        // Create Text objects and bind them to IntegerProperties
+        Text stats1 = new Text();
+        Text stats2 = new Text();
+        Text stats3 = new Text();
+        Text stats4 = new Text();  // For Time Slots
+
+        // Set the font size using setStyle() for each Text object
+        stats1.setStyle("-fx-font-size: 18px;");  // Set font size to 18px for appointments
+        stats2.setStyle("-fx-font-size: 18px;");  // Set font size to 18px for courses
+        stats3.setStyle("-fx-font-size: 18px;");  // Set font size to 18px for office hours
+        stats4.setStyle("-fx-font-size: 18px;");  // Set font size to 18px for time slots
+
+        stats1.textProperty().bind(appointmentsScheduled.asString("%d Appointments scheduled"));
+        stats2.textProperty().bind(coursesThisSemester.asString("%d Courses this semester"));
+        stats3.textProperty().bind(officeHoursScheduled.asString("%d Office Hours scheduled"));
+        stats4.textProperty().bind(timeSlotsAvailable.asString("%d Time Slots available"));  // Bind time slots count
+
+        // Add to VBox
+        quickStats.getChildren().addAll(quickStatsTitle, stats1, stats2, stats3, stats4);
+
+        // Add everything to center area
+        centerArea.getChildren().addAll(buttonsSection, quickStats);
 
 
-        //go to define sem office hours page on click
+        // Set layout positions
+        root.setTop(header);
+        root.setLeft(sidebar);
+        root.setCenter(centerArea);
+
+        // Button Actions
         defineSemOfficeHours.setOnAction(e -> {
             DefineSemOfficeHoursPage definePage = new DefineSemOfficeHoursPage(homeStage, officeHoursList);
-            //System.out.println("Define Semester Office Hours button clicked.");
-            //homeStage.setScene(new Scene(definePage.getView(), 700, 700));
-            homeStage.setScene(new Scene(definePage.getView(),1000,800));
+            homeStage.setScene(new Scene(definePage.getView(), 1000, 800));
         });
-
 
         defineNewCourse.setOnAction(e -> {
             DefineCoursesPage defineCoursesPage = new DefineCoursesPage(homeStage);
-            homeStage.setScene(new Scene(defineCoursesPage.getView(),1000,800));
+            homeStage.setScene(new Scene(defineCoursesPage.getView(), 1000, 800));
         });
 
         viewAllCoursesBtn.setOnAction(e -> {
@@ -89,53 +173,26 @@ public class HomePage{
             homeStage.getScene().setRoot(coursesPage.getView());
         });
 
-        //view all office hours, loads it upon clicking of button and sorts data
         viewAllOfficeHoursBtn.setOnAction(e -> {
             SemOfficeHoursTablePage tablePage = new SemOfficeHoursTablePage(homeStage);
             tablePage.updateTable(CSVHelper.loadOfficeHours());
             homeStage.getScene().setRoot(tablePage.getView());
         });
 
-
-        //To navigate to define semester time slots page
         defineSemSlots.setOnAction(e -> {
-            DefineSemesterTimeSlots defineSemSlots = new DefineSemesterTimeSlots(homeStage,CSVHelper.loadTimeSlots());
+            DefineSemesterTimeSlots defineSemSlots = new DefineSemesterTimeSlots(homeStage, CSVHelper.loadTimeSlots());
             homeStage.getScene().setRoot(defineSemSlots.getView());
         });
 
-        //view all time slots, loads upon clicking of button and sorts data
         viewAllTimeSlotsBtn.setOnAction(e -> {
             List<TimeSlots> timeSlotsList = CSVHelper.loadTimeSlots();
             TimeSlotsTablePage timeSlotsTablePage = new TimeSlotsTablePage(homeStage, timeSlotsList);
             homeStage.getScene().setRoot(timeSlotsTablePage.getView());
         });
 
-
-
-
-        //add all buttons to sidebar vbox
-        sidebar.getChildren().addAll(titleText, defineNewCourse, defineSemSlots, defineSemOfficeHours, viewAllCoursesBtn, viewAllTimeSlotsBtn, viewAllOfficeHoursBtn, settingsBtn);
-
-        //header and styling
-        Text headerMsg = new Text("Welcome, Professor! Here's your office hour overview: ");
-        HBox header = new HBox(headerMsg);
-        header.setStyle("-fx-background-color: #E6EAE4; -fx-font-size: 25px; -fx-alignment: center;;");
-        header.setPadding(new Insets(15, 40, 20, 40));
-
-        //main content
-        VBox appointmentPg = new VBox(20);
-        appointmentPg.setStyle("-fx-background-color: #A4C3A2");
-
-        HBox actionButtons = new HBox(20);
-        actionButtons.setPadding(new Insets(30, 40, 20, 40));
-
-        scheduleBtn = new Button("Schedule a new \n   Office Hour");
-        viewAllAppointmentsBtn = new Button("   View All \nAppointments");
-        searchBtn = new Button("   Search for \nAppointments");
-
         scheduleBtn.setOnAction(e -> {
             ScheduleOfficeHoursPage scheduleOfficeHoursPage = new ScheduleOfficeHoursPage(homeStage);
-            homeStage.setScene(new Scene(scheduleOfficeHoursPage.getView(),1000,800));
+            homeStage.setScene(new Scene(scheduleOfficeHoursPage.getView(), 1000, 800));
         });
 
         viewAllAppointmentsBtn.setOnAction(e -> {
@@ -148,39 +205,43 @@ public class HomePage{
             homeStage.setScene(new Scene(searchPage.getView(), 1000, 800));
         });
 
-
-
-        //stylize the buttons
-        setMiddleButtonStyle(scheduleBtn);
-        setMiddleButtonStyle(viewAllAppointmentsBtn);
-        setMiddleButtonStyle(searchBtn);
-
-        // Add buttons to action panel
-        actionButtons.getChildren().addAll(scheduleBtn, viewAllAppointmentsBtn, searchBtn);
-
-        // Adding action buttons to the appointment page
-        appointmentPg.getChildren().add(actionButtons);
-
-        root.setTop(header);
-        root.setLeft(sidebar);
-        root.setCenter(appointmentPg);
-
         return root;
     }
 
-    // Helper function to style the buttons
+
+    // Helper function to style the buttons (middle buttons)
     private void setMiddleButtonStyle(Button button) {
-        button.setStyle(
-                "-fx-background-color: #E2DFDA; " +
-                        "-fx-text-fill: #2C2C2C; " +
-                        "-fx-font-size: 16px; " +
-                        "-fx-font-weight: bold; " +
-                        "-fx-font-family: 'Arial'; " +
-                        "-fx-padding: 10px 20px; " +
-                        "-fx-background-radius: 5px; " +
-                        "-fx-border-radius: 10px;");
-        button.setPrefWidth(250);  // Consistent button width
+        String defaultStyle = "-fx-background-color: #E2DFDA; " +
+                "-fx-text-fill: #2C2C2C; " +
+                "-fx-font-size: 16px; " +
+                "-fx-font-weight: bold; " +
+                "-fx-font-family: 'Arial'; " +
+                "-fx-padding: 15px 20px; " +
+                "-fx-background-radius: 5px; " +
+                "-fx-border-radius: 10px;";
+        button.setStyle(defaultStyle);
+        button.setPrefWidth(300);  // Consistent button width
+
+        // Hover effect (Middle buttons)
+        button.setOnMouseEntered(e -> {
+            button.setStyle(
+                    "-fx-background-color: #DADDE2;" +  // Lighter background color
+                            "-fx-text-fill: #212C2C; " +  // Darker text color
+                            "-fx-font-size: 16px; " +
+                            "-fx-font-family: 'Arial'; " +
+                            "-fx-padding: 15px 20px; " +
+                            "-fx-font-weight: bold;" +
+                            "-fx-effect: dropshadow(gaussian, #000000, 10, 0, 0, 5); " + // Shadow effect
+                            "-fx-scale-x: 1.05; " + // Slightly grow button on hover (X scale)
+                            "-fx-scale-y: 1.05;" // Slightly grow button on hover (Y scale)
+            );
+        });
+
+        button.setOnMouseExited(e -> {
+            button.setStyle(defaultStyle);
+        });
     }
+
 
     // Helper function to stylize a button
     private void setSideButtonStyle(Button button) {
@@ -202,7 +263,10 @@ public class HomePage{
                             "-fx-font-family: 'Arial'; " +
                             "-fx-padding: 15px 20px; " +
                             "-fx-font-weight: bold;" +
-                    "-fx-effect: dropshadow(gaussian, #000000, 10, 0, 0, 5);");
+                            "-fx-effect: dropshadow(gaussian, #000000, 10, 0, 0, 5);" +
+                            "-fx-scale-x: 1.05; " + // Slightly grow button on hover (X scale)
+                            "-fx-scale-y: 1.05;" // Slightly grow button on hover (Y scale)
+                    );
         });
 
         button.setOnMouseExited(e -> {

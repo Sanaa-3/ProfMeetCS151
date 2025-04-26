@@ -277,4 +277,22 @@ public class CSVHelper {
             }
         }
     }
+
+    // Method to get the number of appointments (from office hour schedule CSV)
+    public static int getScheduledAppointmentsCount() {
+        List<ScheduledOfficeHours> scheduledAppointments = loadScheduledOfficeHours();
+        return scheduledAppointments.size();
+    }
+
+    // Method to get the number of courses (from courses CSV)
+    public static int getCoursesCount() {
+        List<Course> courses = loadCourses();
+        return courses.size();
+    }
+
+    // Method to get the number of office hours (from office hours CSV)
+    public static int getOfficeHoursCount() {
+        List<SemesterOfficeHours> officeHours = loadOfficeHours();
+        return officeHours.size();
+    }
 }
