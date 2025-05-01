@@ -22,6 +22,31 @@ public class ScheduledOfficeHours {
         this.comment = new SimpleStringProperty(comment);
     }
 
+    public void setStudentName(String studentName) {
+        this.studentNameProperty().set(studentName);
+    }
+
+    public void setDate(String date) {
+        this.dateProperty().set(date);
+    }
+
+    public void setTimeSlot(String timeSlot) {
+        this.timeSlotProperty().set(timeSlot);
+    }
+
+    public void setCourse(String course) {
+        this.courseProperty().set(course);
+    }
+
+    public void setReason(String reason) {
+        this.reasonProperty().set(reason);
+    }
+
+    public void setComment(String comment) {
+        this.commentProperty().set(comment);
+    }
+
+
     // Getter methods that return the property (for TableView binding)
     public StringProperty studentNameProperty() {
         return studentName;

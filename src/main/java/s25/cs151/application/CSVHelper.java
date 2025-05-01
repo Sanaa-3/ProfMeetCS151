@@ -278,6 +278,30 @@ public class CSVHelper {
         }
     }
 
+    public static void saveAppointments(List<ScheduledOfficeHours> appointments, String filename) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            // Write each appointment as a new row
+            for (ScheduledOfficeHours appointment : appointments) {
+                String row = String.format("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"",
+                        appointment.getStudentName(),
+                        appointment.getDate(),
+                        appointment.getTimeSlot(),
+                        appointment.getCourse(),
+                        appointment.getReason(),
+                        appointment.getComment());
+                writer.write(row);
+                writer.newLine();  // Move to the next line after each appointment
+            }
+
+            System.out.println("CSV file saved successfully to " + filename);
+        } catch (IOException e) {
+            System.err.println("Error saving CSV: " + e.getMessage());
+        }
+    }
+
+
+
+
     // Method to get the number of appointments (from office hour schedule CSV)
     public static int getScheduledAppointmentsCount() {
         List<ScheduledOfficeHours> scheduledAppointments = loadScheduledOfficeHours();

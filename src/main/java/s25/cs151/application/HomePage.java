@@ -1,17 +1,15 @@
 package s25.cs151.application;
 
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.IntegerProperty;
@@ -22,7 +20,7 @@ public class HomePage{
     private Button defineSemOfficeHours;
     private Button defineSemSlots;
     private Button defineNewCourse;
-    private Button settingsBtn;
+    private Button editBtn;
     private Button scheduleBtn;
     private Button viewAllOfficeHoursBtn;
     private Button viewAllAppointmentsBtn;
@@ -46,7 +44,7 @@ public class HomePage{
         Text titleText = new Text("ProfMeet");
         titleText.setStyle("-fx-font-size: 46px; -fx-font-weight: bold; -fx-font-family: 'Palatino'; -fx-fill: #2C2C2C;");
 
-        // Sidebar (left side) - Define buttons + Settings
+        // Sidebar (left side) - Define buttons
         VBox sidebar = new VBox(25);
         sidebar.setStyle("-fx-background-color: linear-gradient(to bottom, #5D7B6F, #EAE7D6);");
         sidebar.setPadding(new Insets(30));
@@ -55,14 +53,14 @@ public class HomePage{
         defineSemOfficeHours = new Button("Define Semester Office Hours");
         defineSemSlots = new Button("Define Semester Time Slots");
         defineNewCourse = new Button("Define New Course");
-        settingsBtn = new Button("Settings");
+        editBtn = new Button("Edit Appointments");
 
         // Style and add buttons to sidebar
         setSideButtonStyle(defineSemOfficeHours);
         setSideButtonStyle(defineSemSlots);
         setSideButtonStyle(defineNewCourse);
-        setSideButtonStyle(settingsBtn);
-        sidebar.getChildren().addAll(titleText, defineNewCourse, defineSemSlots, defineSemOfficeHours, settingsBtn);
+        setSideButtonStyle(editBtn);
+        sidebar.getChildren().addAll(titleText, defineNewCourse, defineSemSlots, defineSemOfficeHours, editBtn);
 
         // Header
         Text headerMsg = new Text("Welcome, Professor! Here's your office hour overview:");
@@ -203,6 +201,11 @@ public class HomePage{
         searchBtn.setOnAction(e -> {
             SearchAppointmentsPage searchPage = new SearchAppointmentsPage(homeStage);
             homeStage.setScene(new Scene(searchPage.getView(), 1000, 800));
+        });
+
+        editBtn.setOnAction(e -> {
+            EditAppointmentsPage editAppointmentsPage = new EditAppointmentsPage(homeStage);
+            homeStage.setScene(new Scene(editAppointmentsPage.getView(), 1000, 800));
         });
 
         return root;
