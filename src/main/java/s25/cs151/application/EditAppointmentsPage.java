@@ -289,6 +289,7 @@ public class EditAppointmentsPage {
                     }
                 }
 
+
                 //Something goes wrong here. I think the above for loop works because it's updated on the page. Just not in csv.
                 // Save the updated list of appointments to the CSV file
                 CSVHelper.saveAppointments(appointmentList, "src/main/java/s25/cs151/application/DataFiles/scheduled_office_hours.csv");
