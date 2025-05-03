@@ -190,7 +190,8 @@ public class CSVHelper {
         }
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(COURSES_FILE_PATH, true))) {
-            String line = course.getCourseCode() + "," + course.getCourseName() + "," + course.getSectionNumber();
+            // String line = course.getCourseCode() + "," + course.getCourseName() + "," + course.getSectionNumber();
+            String line = course.toCSVString();
             bw.write(line);
             bw.newLine();
         } catch (IOException e) {

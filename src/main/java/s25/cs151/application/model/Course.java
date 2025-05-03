@@ -1,6 +1,6 @@
 package s25.cs151.application.model;
 
-public class Course {
+public class Course implements Entity {
     private String courseCode;
     private String courseName;
     private String sectionNumber;
@@ -22,7 +22,7 @@ public class Course {
 
     // for CSV storage
     @Override
-    public String toString() {
+    public String toCSVString() {
         return courseCode + "," + courseName + "," + sectionNumber;
     }
 
