@@ -26,10 +26,14 @@ public class MainController {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
 
+    static {
+        quickStatsUI = new QuickStatsUI();
+    }
+
     // Initialize the Quick Stats UI and bind it to the container in FXML
     @FXML
     public void initialize() {
-        quickStatsUI = new QuickStatsUI();
+        //quickStatsUI = new QuickStatsUI();
         quickStatsContainer.getChildren().add(quickStatsUI.getQuickStatsVBox());
     }
 }
