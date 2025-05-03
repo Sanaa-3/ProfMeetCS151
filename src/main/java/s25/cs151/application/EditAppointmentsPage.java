@@ -282,11 +282,9 @@ public class EditAppointmentsPage {
                 appointment.setComment(commentField.getText());
 
                 // Find the appointment in the list and update it
-                for (int i = 0; i < appointmentList.size(); i++) {
-                    if (appointmentList.get(i).equals(appointment)) {
-                        appointmentList.set(i, appointment);  // Update the appointment in the list
-                        break;
-                    }
+                int indexInTable = tableView.getItems().indexOf(appointment);
+                if (indexInTable != -1 && indexInTable < appointmentList.size()) {
+                    appointmentList.set(indexInTable, appointment);
                 }
 
 

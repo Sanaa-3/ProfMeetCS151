@@ -280,23 +280,26 @@ public class CSVHelper {
 
     public static void saveAppointments(List<ScheduledOfficeHours> appointments, String filename) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            // Write each appointment as a new row
+
             for (ScheduledOfficeHours appointment : appointments) {
                 String row = String.format("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"",
-                        appointment.getStudentName(),
-                        appointment.getDate(),
-                        appointment.getTimeSlot(),
-                        appointment.getCourse(),
-                        appointment.getReason(),
-                        appointment.getComment());
+                        safe(appointment.getStudentName()),
+                        safe(appointment.getDate()),
+                        safe(appointment.getTimeSlot()),
+                        safe(appointment.getCourse()),
+                        safe(appointment.getReason()),
+                        safe(appointment.getComment()));
                 writer.write(row);
-                writer.newLine();  // Move to the next line after each appointment
+                writer.newLine();
             }
-
-            System.out.println("CSV file saved successfully to " + filename);
         } catch (IOException e) {
-            System.err.println("Error saving CSV: " + e.getMessage());
+            e.printStackTrace();
         }
+    }
+
+    // Helper method to ensure nulls become empty strings
+    private static String safe(String value) {
+        return value == null ? "" : value;
     }
 
 
