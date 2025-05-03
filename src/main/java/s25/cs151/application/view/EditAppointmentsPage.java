@@ -229,6 +229,7 @@ public class EditAppointmentsPage {
     }
 
 
+
     private void showEditDialog(ScheduledOfficeHours appointment) {
         // Load the full list of appointments from CSV
         List<ScheduledOfficeHours> appointmentList = CSVHelper.loadScheduledOfficeHours();
@@ -240,6 +241,11 @@ public class EditAppointmentsPage {
 
         ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+
+        //save all the original values
+        String originalName = appointment.getStudentName();
+        String originalDate = appointment.getDate();
+        String originalTime = appointment.getTimeSlot();
 
         // Create form fields pre-filled with current values
         TextField nameField = new TextField(appointment.getStudentName());
@@ -282,11 +288,19 @@ public class EditAppointmentsPage {
                 appointment.setComment(commentField.getText());
 
                 // Find the appointment in the list and update it
-                int indexInTable = tableView.getItems().indexOf(appointment);
-                if (indexInTable != -1 && indexInTable < appointmentList.size()) {
-                    appointmentList.set(indexInTable, appointment);
-                }
+                for (int i = 0; i < appointmentList.size(); i++) {
+                    ScheduledOfficeHours original = appointmentList.get(i);
 
+                    boolean isMatch =
+                            original.getStudentName().equals(originalName) &&
+                                    original.getDate().equals(originalDate) &&
+                                    original.getTimeSlot().equals(originalTime);
+
+                    if (isMatch) {
+                        appointmentList.set(i, appointment);
+                        break;
+                    }
+                }
 
                 //Something goes wrong here. I think the above for loop works because it's updated on the page. Just not in csv.
                 // Save the updated list of appointments to the CSV file
