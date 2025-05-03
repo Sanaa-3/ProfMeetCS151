@@ -1,4 +1,4 @@
-package s25.cs151.application;
+package s25.cs151.application.view;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,18 +15,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.text.Text;
 
-import s25.cs151.application.TimeSlots;
+import s25.cs151.application.model.TimeSlots;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
+import s25.cs151.application.view.HomePage;
 
 public class TimeSlotsTablePage {
     private final Stage primaryStage;

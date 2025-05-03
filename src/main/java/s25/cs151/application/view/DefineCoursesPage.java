@@ -1,7 +1,5 @@
-package s25.cs151.application;
+package s25.cs151.application.view;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -9,8 +7,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.Parent;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import s25.cs151.application.controller.CSVHelper;
+import s25.cs151.application.controller.MainController;
+import s25.cs151.application.model.Course;
 
 public class DefineCoursesPage {
     private final Stage stage;

@@ -1,8 +1,9 @@
-package s25.cs151.application;
+package s25.cs151.application.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import s25.cs151.application.view.QuickStatsUI;
 
 public class MainController {
 

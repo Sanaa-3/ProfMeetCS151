@@ -1,4 +1,4 @@
-package s25.cs151.application;
+package s25.cs151.application.view;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -7,6 +7,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import s25.cs151.application.controller.CSVHelper;
+import s25.cs151.application.model.SemesterOfficeHours;
+
 import java.util.*;
 
 public class DefineSemOfficeHoursPage {
@@ -16,7 +19,7 @@ public class DefineSemOfficeHoursPage {
 
     public DefineSemOfficeHoursPage(Stage stage, List<SemesterOfficeHours> officeHoursList) {
         this.stage = stage;
-        //this.officeHoursList = (List<s25.cs151.application.SemesterOfficeHours>) officeHoursList;
+        //this.officeHoursList = (List<s25.cs151.application.model.SemesterOfficeHours>) officeHoursList;
         this.officeHoursList = officeHoursList;
         this.view = View();
 

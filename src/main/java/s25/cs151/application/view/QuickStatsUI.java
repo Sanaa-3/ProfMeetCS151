@@ -1,10 +1,11 @@
-package s25.cs151.application;
+package s25.cs151.application.view;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.geometry.Pos;
+import s25.cs151.application.controller.CSVHelper;
 
 public class QuickStatsUI {
 

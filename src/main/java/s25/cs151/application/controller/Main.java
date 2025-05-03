@@ -1,16 +1,9 @@
-package s25.cs151.application;
+package s25.cs151.application.controller;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.layout.BorderPane;
-
-
-import java.io.IOException;
+import s25.cs151.application.view.HomePage;
 
 public class Main extends Application {
 

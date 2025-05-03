@@ -1,4 +1,4 @@
-package s25.cs151.application;
+package s25.cs151.application.view;
 
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -11,15 +11,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
+import s25.cs151.application.controller.CSVHelper;
+import s25.cs151.application.model.TimeSlots;
 
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 
 public class DefineSemesterTimeSlots {

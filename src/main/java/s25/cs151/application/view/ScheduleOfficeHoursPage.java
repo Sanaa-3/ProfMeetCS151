@@ -1,18 +1,18 @@
-package s25.cs151.application;
+package s25.cs151.application.view;
 
-import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import s25.cs151.application.controller.CSVHelper;
+import s25.cs151.application.model.Course;
+import s25.cs151.application.model.TimeSlots;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 public class ScheduleOfficeHoursPage {

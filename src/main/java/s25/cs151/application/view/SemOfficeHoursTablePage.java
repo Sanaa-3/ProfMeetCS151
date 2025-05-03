@@ -1,4 +1,4 @@
-package s25.cs151.application;
+package s25.cs151.application.view;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +12,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import javafx.scene.text.Text;
+import s25.cs151.application.controller.CSVHelper;
+import s25.cs151.application.model.SemesterOfficeHours;
 
 import java.util.List;
 

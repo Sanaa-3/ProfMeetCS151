@@ -1,4 +1,4 @@
-package s25.cs151.application;
+package s25.cs151.application.view;
 
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.collections.FXCollections;
@@ -11,11 +11,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import java.io.IOException;
+
 import java.util.List;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import s25.cs151.application.controller.CSVHelper;
+import s25.cs151.application.model.ScheduledOfficeHours;
 
 
 public class EditAppointmentsPage {

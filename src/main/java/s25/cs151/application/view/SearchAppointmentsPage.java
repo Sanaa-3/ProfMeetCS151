@@ -1,4 +1,4 @@
-package s25.cs151.application;
+package s25.cs151.application.view;
 
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.collections.FXCollections;
@@ -11,6 +11,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import s25.cs151.application.controller.CSVHelper;
+import s25.cs151.application.model.ScheduledOfficeHours;
+
 import java.io.IOException;
 import java.util.List;
 

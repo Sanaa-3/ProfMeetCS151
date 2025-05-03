@@ -2,7 +2,7 @@
 # Version: 0.7
 
 # who did what:
-1. Vaishnavi Panchal - worked on edit appointments feature
+1. Vaishnavi Panchal - worked on edit appointments feature, organized mvc structure
 2. Huy Mai - added delete feature for searched appointments
 3. Sanaa Stanezai - Reformatted Homepage buttons and added QuickStats
 3. Andrea Tapia - Formatting data scheduleOfficeHours

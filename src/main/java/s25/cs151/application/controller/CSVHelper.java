@@ -1,4 +1,9 @@
-package s25.cs151.application;
+package s25.cs151.application.controller;
+import s25.cs151.application.model.Course;
+import s25.cs151.application.model.ScheduledOfficeHours;
+import s25.cs151.application.model.SemesterOfficeHours;
+import s25.cs151.application.model.TimeSlots;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -292,6 +297,7 @@ public class CSVHelper {
                 writer.write(row);
                 writer.newLine();
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -301,6 +307,7 @@ public class CSVHelper {
     private static String safe(String value) {
         return value == null ? "" : value;
     }
+
 
 
 

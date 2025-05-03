@@ -1,5 +1,4 @@
-package s25.cs151.application;
-import java.util.Objects;
+package s25.cs151.application.model;
 
 public class Course {
     private String courseCode;

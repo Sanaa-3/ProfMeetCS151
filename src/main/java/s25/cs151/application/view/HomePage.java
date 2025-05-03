@@ -1,4 +1,4 @@
-package s25.cs151.application;
+package s25.cs151.application.view;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import s25.cs151.application.controller.CSVHelper;
+import s25.cs151.application.model.SemesterOfficeHours;
+import s25.cs151.application.model.TimeSlots;
 
 public class HomePage{
 

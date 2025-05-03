@@ -1,4 +1,4 @@
-package s25.cs151.application;
+package s25.cs151.application.view;
 
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.collections.FXCollections;
@@ -14,8 +14,8 @@ import javafx.stage.Stage;
 import java.util.Comparator;
 import java.util.List;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import s25.cs151.application.controller.CSVHelper;
+import s25.cs151.application.model.ScheduledOfficeHours;
 
 
 public class ViewAppointmentsPage {
