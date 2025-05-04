@@ -12,10 +12,16 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import s25.cs151.application.controller.CSVHelper;
 import s25.cs151.application.model.ScheduledOfficeHours;
+import s25.cs151.application.model.TimeSlots;
 
 
 public class EditAppointmentsPage {
@@ -100,18 +106,16 @@ public class EditAppointmentsPage {
             System.out.println("Loaded " + appointments.size() + " appointments");
 
             //Sort appointments in descending order
-            appointments.sort((a1, a2) -> {
-                int dateCompare = a2.getDate().compareTo(a1.getDate());
-                if (dateCompare != 0) {
-                    return dateCompare;
-                }
-                return a2.getTimeSlot().compareTo(a1.getTimeSlot());
-            });
+//
+            appointments.sort(Comparator
+                    .comparing(ScheduledOfficeHours::getDate, Comparator.reverseOrder())
+                    .thenComparing(a -> a.getTimeSlot().split("-")[0].trim(), Comparator.reverseOrder()));
 
-
-            observableAppointments = FXCollections.observableArrayList(appointments);
-            filteredAppointments = new FilteredList<>(observableAppointments, p -> true);
-            tableView.setItems(filteredAppointments);
+                this.observableAppointments = FXCollections.observableArrayList(appointments);
+                this.filteredAppointments = new FilteredList<>(observableAppointments);
+           // observableAppointments = FXCollections.observableArrayList(appointments);
+            //filteredAppointments = new FilteredList<>(observableAppointments, p -> true);
+            tableView.setItems(this.filteredAppointments);
         } catch (Exception e) {
             System.err.println("Error loading appointments: " + e.getMessage());
             e.printStackTrace();
@@ -250,10 +254,24 @@ public class EditAppointmentsPage {
         // Create form fields pre-filled with current values
         TextField nameField = new TextField(appointment.getStudentName());
         TextField dateField = new TextField(appointment.getDate());
-        TextField timeSlotField = new TextField(appointment.getTimeSlot());
+       // TextField timeSlotField = new TextField(appointment.getTimeSlot());
         TextField courseField = new TextField(appointment.getCourse());
         TextField reasonField = new TextField(appointment.getReason());
         TextField commentField = new TextField(appointment.getComment());
+
+        //List for timeslots
+        ComboBox<String> timeSlotsComboBox = new ComboBox<>();
+        List<TimeSlots>  timeSlotsList = CSVHelper.loadTimeSlots();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a");
+        timeSlotsList.sort(Comparator.comparing(timeSlots -> LocalTime.parse(timeSlots.getStartTimeString(), formatter)));
+        for(TimeSlots ts : timeSlotsList) {
+
+            String startTime = ts.getStartTimeString().replace("AM","").replace("PM","");
+            String endTime = ts.getEndTimeString().replace("AM","").replace("PM","");
+            String display = startTime + " – " + endTime;
+            timeSlotsComboBox.getItems().add(display);
+        }
+        timeSlotsComboBox.setValue(appointment.getTimeSlot());
 
         // Layout for the form
         GridPane grid = new GridPane();
@@ -266,7 +284,8 @@ public class EditAppointmentsPage {
         grid.add(new Label("Date:"), 0, 1);
         grid.add(dateField, 1, 1);
         grid.add(new Label("Time Slot:"), 0, 2);
-        grid.add(timeSlotField, 1, 2);
+        //Changed
+        grid.add(timeSlotsComboBox, 1, 2);
         grid.add(new Label("Course:"), 0, 3);
         grid.add(courseField, 1, 3);
         grid.add(new Label("Reason:"), 0, 4);
@@ -282,7 +301,8 @@ public class EditAppointmentsPage {
                 // Update the appointment with new values from the dialog
                 appointment.setStudentName(nameField.getText());
                 appointment.setDate(dateField.getText());
-                appointment.setTimeSlot(timeSlotField.getText());
+                appointment.setTimeSlot(timeSlotsComboBox.getValue());
+                //appointment.setTimeSlot(timeSlotField.getText());
                 appointment.setCourse(courseField.getText());
                 appointment.setReason(reasonField.getText());
                 appointment.setComment(commentField.getText());
