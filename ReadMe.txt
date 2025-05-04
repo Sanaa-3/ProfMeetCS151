@@ -5,7 +5,7 @@
 1. Vaishnavi Panchal - worked on edit appointments feature, organized mvc structure
 2. Huy Mai - worked on polymorphism
 3. Sanaa Stanezai - worked on edit appointments feature, helped organize data through quickStatsUI
-3. Andrea Tapia - Formatting data scheduleOfficeHours
+3. Andrea Tapia - Formatting data for Edit appointment table, edit table formatting
 
 Polymorphism
 - Parent Interface Entity with toCSVString(); method in s25.cs151.application.model.Entity
