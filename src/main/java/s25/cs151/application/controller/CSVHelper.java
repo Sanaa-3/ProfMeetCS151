@@ -134,9 +134,10 @@ public class CSVHelper {
     public static void saveTimeSlots(List<TimeSlots> timeSlotsList) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(TIME_SLOTS_FILE_PATH, true))) {
             for (TimeSlots timeSlot : timeSlotsList) {
-                String fromTime = timeSlot.getStartTime().format(FORMATTER);
-                String toTime = timeSlot.getEndTime().format(FORMATTER);
-                String line = fromTime + ", " + toTime;
+//                String fromTime = timeSlot.getStartTime().format(FORMATTER);
+//                String toTime = timeSlot.getEndTime().format(FORMATTER);
+//                String line = fromTime + ", " + toTime;
+                String line = timeSlot.toCSVString();
 
                 if (!line.trim().isEmpty()) {
                     writer.write(line);
